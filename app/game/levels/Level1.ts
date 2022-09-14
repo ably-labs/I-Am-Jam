@@ -30,11 +30,12 @@ export class Level1 extends Level {
 
         this.addEntity(new ImageAsset(7938, 225, "pot-top.png", 10));
         this.addEntity(new ImageAsset(850, 160, "jug.png", 10));
+        this.addEntity(new ImageAsset(850, 160, "jug.png", 10));
 
         this.addEntity(new GifAsset(3010, 143, "drip.gif", 5));
 
-        this.addEntity(new GifAsset(5921, 255, "candle.gif"));
-        this.addEntity(new ImageAsset(5921, 255, "jam.png"));
+        this.addEntity(new GifAsset(5910, 137, "candle.gif"));
+        this.addEntity(new ImageAsset(7300, 157, "jam.png"));
     }
 
     public async onStart(gameState: Game, level: Playfield) {
