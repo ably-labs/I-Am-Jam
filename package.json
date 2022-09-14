@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "prepare": "cd api && npm install",
+    "init": "npm install && cd api && npm install",
     "start": "run-p dev:api dev:server",
     "dev:api": "npm run start --prefix api",
     "dev:server": "npx vite serve",
