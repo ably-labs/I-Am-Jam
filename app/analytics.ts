@@ -1,5 +1,4 @@
 export {};
-
 const gaUa = import.meta.env.VITE_GA_UA || "";
 
 if (gaUa && gaUa !== "") {
@@ -9,13 +8,8 @@ if (gaUa && gaUa !== "") {
     document.head.appendChild(gtagScript);
     
     window["dataLayer"] = window["dataLayer"] || [];
-
-    function gtag(...args: (string | Date)[]){
-        window["dataLayer"].push(args);
-    }
-
-    gtag('js', new Date());  
-    gtag('config', gaUa);
+    window["dataLayer"].push('js', new Date());
+    window["dataLayer"].push('config', gaUa);
 
     console.log("Configured GA for " + gaUa);
 }
