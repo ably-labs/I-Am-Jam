@@ -1,6 +1,7 @@
 [build]
   publish = "dist"
   command = "npm run build:netlify"
+  VITE_GA_UA = ""
 
 [functions]
   directory = "api"
@@ -12,3 +13,6 @@
 
 [template.environment]
   ABLY_API_KEY = "change me to your Ably API key"
+  
+[template.build]
+  VITE_GA_UA = "Enter a  Google Analytics UA here or leave blank to disable GA."
