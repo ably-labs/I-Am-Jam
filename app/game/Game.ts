@@ -104,7 +104,11 @@ export class Game {
                                 .sort((a, b) => a.zIndex - b.zIndex);
 
         for (const entity of orderedDrawables) {
-            entity.draw(this);
+            try {
+                entity.draw(this);
+            } catch (e) {
+                console.error("Failed to draw sprite", e);
+            }
         }
 
         this.timer = window.setTimeout(async () => {

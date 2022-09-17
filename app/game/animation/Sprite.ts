@@ -12,15 +12,25 @@ export class Sprite implements ITickable, IInitialisable {
     private readonly filePattern: string;
     private readonly frameCount: number;
 
-    private readonly frames: HTMLImageElement[];
+    private get frames() {
+        return this.facing === "LEFT"
+            ? this.framesFacingLeft
+            : this.framesFacingRight;
+    }
+
     private facing: Direction;
     private currentFrameId: number;
     private readonly delay: number;
 
+    private readonly framesFacingRight: HTMLCanvasElement[];
+    private readonly framesFacingLeft: HTMLCanvasElement[];
+
     constructor(filePattern: string, frameCount: number, delay: number = 5) {
+        this.framesFacingLeft = [];
+        this.framesFacingRight = [];
+
         this.filePattern = filePattern;
         this.frameCount = frameCount
-        this.frames = [];
         this.currentFrameId = 0;
         this.facing = "RIGHT";
         this.delay = delay;
@@ -30,8 +40,12 @@ export class Sprite implements ITickable, IInitialisable {
         for (let id = 0; id < this.frameCount; id ++) {
             const pattern = this.filePattern + "." + (id+1) + ".png";
 
-            const cachedResource = await ImageHelpers.load(pattern);
-            this.frames[id] = ImageHelpers.clone(cachedResource);
+            const image = await ImageHelpers.load(pattern);
+            const right = await ImageHelpers.clone(image);
+            const left = await ImageHelpers.mirror(image);
+
+            this.framesFacingLeft.push(left);
+            this.framesFacingRight.push(right);
         }
 
         console.log("loaded all frames", this.filePattern, this.frames);
@@ -48,10 +62,6 @@ export class Sprite implements ITickable, IInitialisable {
     public setDirection(facing: Direction) {
         if (this.facing === facing) {
             return;
-        }
-
-        for (const frame of this.frames) {
-            ImageHelpers.mirror(frame);
         }
 
         this.facing = facing;
