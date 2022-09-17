@@ -61,7 +61,7 @@ export class Playfield implements ITickable, IDrawable {
 
         this.tickCount++;
         this.camera.move(gameState.player.velocityX);
-        this.level.tick(gameState);
+        await this.level.tick(gameState);
     }
 
     private async loadLevelData(level: Level) {
