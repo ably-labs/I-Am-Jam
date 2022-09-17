@@ -1,9 +1,10 @@
 import { Game } from "../Game";
-import { IDrawable, isDrawable } from "../behaviours/IDrawable";
+import { IDrawable } from "../behaviours/IDrawable";
 import { ITickable } from "../behaviours/ITickable";
 import { Level } from "../levels/Level";
 import { debugTimer } from "../metrics/debugTimer";
 import { ImageHelpers } from "../animation/ImageHelpers";
+import { Camera } from "../Camera";
 
 export class Playfield implements ITickable, IDrawable {   
     public x = 0;
@@ -13,7 +14,8 @@ export class Playfield implements ITickable, IDrawable {
     public zIndex = -1;
 
     public tickCount = 0;    
-    public cameraXposition = 0;
+
+    public camera: Camera;
     
     public ctx: CanvasRenderingContext2D;
     public canvas: HTMLCanvasElement;
@@ -35,11 +37,13 @@ export class Playfield implements ITickable, IDrawable {
         this.canvas.setAttribute("width", width + "px");
         this.canvas.setAttribute("height", height + "px");
         this.ctx = this.canvas.getContext("2d");
+
+        this.camera = new Camera(this);
     }
 
     public async init(level: Level = this.level) {
         this.level = level;
-        this.cameraXposition = 0;
+        this.camera.reset();
         this.tickCount = 0;
         
         this.writeText("Loading...");
@@ -56,8 +60,8 @@ export class Playfield implements ITickable, IDrawable {
         }
 
         this.tickCount++;
-        this.cameraXposition += gameState.player.velocityX;
-        this.level.tick(gameState);
+        this.camera.move(gameState.player.velocityX);
+        await this.level.tick(gameState);
     }
 
     private async loadLevelData(level: Level) {
@@ -66,21 +70,12 @@ export class Playfield implements ITickable, IDrawable {
         
         const image = this.collisionMapImage = await ImageHelpers.load(level.collisionUrl);
 
-        var hiddenCanvas = document.createElement("CANVAS") as HTMLCanvasElement;
+        const hiddenCanvas = document.createElement("CANVAS") as HTMLCanvasElement;
         hiddenCanvas.setAttribute("width", image.width + "px");
         hiddenCanvas.setAttribute("height", image.height + "px");
 
         this.collisionMap = hiddenCanvas.getContext("2d");
         this.collisionMap.drawImage(image, 0, 0);
-    }
-
-    public getFloorBelowY(x: number, y: number) {
-        for (var tempY = y; tempY <= this.height; tempY++) {
-            if (this.isSolidSurface(x, tempY)) {
-                return tempY;
-            }
-        }
-        return 0;
     }
 
     public isSolidSurface(x: number, y: number) { return this.getPixelType(x, y) == "#"; }
@@ -94,9 +89,9 @@ export class Playfield implements ITickable, IDrawable {
 
         const flippedY = this.height - y;
         const mapData = this.collisionMap.getImageData(x, flippedY, 1, 1);
-        var rawData = mapData.data;
-        var mask = rawData[0] + " " + rawData[1] + " " + rawData[2] + " " + rawData[3];
-        
+        const rawData = mapData.data;
+        const mask = rawData[0] + " " + rawData[1] + " " + rawData[2] + " " + rawData[3];
+
         if (mask == "255 0 0 255")
             return "pit";
 
@@ -116,7 +111,7 @@ export class Playfield implements ITickable, IDrawable {
     }
 
     public levelEndOffset() { return this.map.width - this.width; }
-    public atLevelEnd() { return this.cameraXposition >= this.levelEndOffset(); }
+    public atLevelEnd() { return this.camera.position >= this.levelEndOffset(); }
 
     public writeText(text: string) {
         this.ctx.font = "30px Arial";
@@ -125,7 +120,7 @@ export class Playfield implements ITickable, IDrawable {
     }
 
     public draw(gameState: Game) {
-        var drawAtX = this.cameraXposition * -1;
+        let drawAtX = this.camera.position * -1;
         drawAtX = drawAtX > 0 ? 0 : drawAtX;
         drawAtX = this.atLevelEnd() ? this.levelEndOffset() * -1 : drawAtX;
 

@@ -9,10 +9,10 @@ export abstract class Level {
     public foregroundUrl: string;
     public collisionUrl: string;
 
-    private entityRegistrations: EntityRegistration[];
+    private readonly entityRegistrations: EntityRegistration[];
     public get entities() { return this.entityRegistrations.map(x => x.entity); }
 
-    constructor(foregroundUrl: string, collisionUrl: string) {
+    protected constructor(foregroundUrl: string, collisionUrl: string) {
         this.foregroundUrl = foregroundUrl;
         this.collisionUrl = collisionUrl;
         this.entityRegistrations = [];
@@ -39,14 +39,14 @@ export abstract class Level {
         this.entityRegistrations.push(entityRegistration);
     }
 
-    public tick(gameState: Game): void {        
+    public async tick(gameState: Game) {
         for (const { entity, activationCondition } of this.entityRegistrations) {            
             if (activationCondition(gameState, entity) && isTickable(entity)) {
-                entity.tick(gameState);
+                await entity.tick(gameState);
             }
         }
 
-        this.onTick(gameState);
+        await this.onTick(gameState);
     }        
 }
 
@@ -57,14 +57,14 @@ export type EntityRegistration = {
     activationCondition: EntityActivationCallback;
 };
 
-export function alwaysActivate(gameState: Game, entity: EntityBase) {
+export function alwaysActivate() {
     return true;
 }
 
 export function activateWhenOnScreen(gameState: Game, entity: EntityBase): boolean {
     return isDrawable(entity) 
-            ? entity.x < gameState.playfield.cameraXposition + gameState.playfield.width 
-            : alwaysActivate(gameState, entity);
+            ? gameState.playfield.camera.isOnScreen(entity)
+            : alwaysActivate();
 }
 
 export const activateWhenNearPlayer = (activateWhenDistanceFromPlayerIs(800));
@@ -76,6 +76,6 @@ export function activateWhenDistanceFromPlayerIs(distance: number) {
 
         return isDrawable(entity) 
                 ? distanceFromPlayer <= distance
-                : alwaysActivate(gameState, entity);
+                : alwaysActivate();
     }
 }

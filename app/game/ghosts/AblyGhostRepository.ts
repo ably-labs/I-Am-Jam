@@ -3,7 +3,7 @@ import Ably from "ably";
 import { IGhostRepository } from "./IGhostRepository";
 
 export class AblyGhostRepository implements IGhostRepository {
-    private ghosts: SaveFile[];
+    private readonly ghosts: SaveFile[];
     private channel: any;
     private callback: ((ghost: SaveFile) => void);
 

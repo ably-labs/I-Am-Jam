@@ -11,6 +11,7 @@ export class Player extends Character {
         this.saveFile = new SaveFile();
     }
 
+    // noinspection JSUnusedGlobalSymbols
     public teleport(x: number, y: number) {
         this.x = x;
         this.y = y;
@@ -28,7 +29,7 @@ export class Player extends Character {
         }
 
         this.processControls(gameState);
-        super.onTick(gameState);
+        await super.onTick(gameState);
 
         this.saveFile.push(this.x, this.y);
     }
