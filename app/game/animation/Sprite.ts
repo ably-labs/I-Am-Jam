@@ -1,21 +1,21 @@
 import { IInitialisable } from "../behaviours/IInitilisable";
 import { ITickable } from "../behaviours/ITickable";
 import { Game } from "../Game";
-import { Direction } from "../entities/EntityBase";
+import { Direction, EntityBase } from "../entities/EntityBase";
 import { ImageHelpers } from "./ImageHelpers";
+import { Playfield } from "../entities/Playfield";
+import { PhysicsObject } from "../entities/PhysicsObject";
+
+export type ValidFrameId = number | "auto" | "stopped";
 
 export class Sprite implements ITickable, IInitialisable {
-    private filePattern: string;
-    private frameCount: number;
+    private readonly filePattern: string;
+    private readonly frameCount: number;
 
-    private frames: HTMLImageElement[];
+    private readonly frames: HTMLImageElement[];
     private facing: Direction;
     private currentFrameId: number;
-    private delay: number;
-
-    public get firstFrame() { return this.frames[1]; }
-    public get currentFrame() { return this.frames[this.currentFrameId]; }
-    public get lastFrame() { return this.frames[this.frames.length - 1]; }
+    private readonly delay: number;
 
     constructor(filePattern: string, frameCount: number, delay: number = 5) {
         this.filePattern = filePattern;
@@ -27,7 +27,7 @@ export class Sprite implements ITickable, IInitialisable {
     }
     
     public async init() {
-        for (var id = 0; id < this.frameCount; id ++) {
+        for (let id = 0; id < this.frameCount; id ++) {
             const pattern = this.filePattern + "." + (id+1) + ".png";
 
             const cachedResource = await ImageHelpers.load(pattern);
@@ -37,7 +37,7 @@ export class Sprite implements ITickable, IInitialisable {
         console.log("loaded all frames", this.filePattern, this.frames);
     }
     
-    public async tick(gameState: Game){        
+    public async tick(gameState: Game) {
         if (gameState.playfield.tickCount % this.delay == 0) {
             this.currentFrameId++;
         }
@@ -57,21 +57,44 @@ export class Sprite implements ITickable, IInitialisable {
         this.facing = facing;
     }
 
-    public draw(gameState, x, y, height, width, ctx) {
-        this.drawFrameNumber(gameState, this.currentFrameId, x, y, height, width, ctx);
-    }
+    public draw(playfield: Playfield, entity: EntityBase, frameId: ValidFrameId = "auto", isDebug = false) {   
+        const ctx = playfield.ctx;
+        
+        let targetFrameId = frameId == "auto" ? this.currentFrameId : frameId;
+        targetFrameId = frameId == "stopped" ? 0 : targetFrameId;
+        const targetFrame = this.frames[targetFrameId];
+        
+        const { x, y } = playfield.camera.toCanvasPosition(entity.x, entity.y, entity);
 
-    public drawFrameNumber(gameState, frameId, x, y, height, width, ctx) {
-        const canvasY = gameState.playfield.height - y - height;
-
-        if (gameState.debug) {
+        if (isDebug) {
             ctx.beginPath();
-            ctx.lineWidth = "1";
-            ctx.strokeStyle = "red";
-            ctx.rect(x, canvasY, width, height);
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = "green";
+            ctx.rect(x, y, entity.width, entity.height);
             ctx.stroke();
-        }        
 
-        ctx.drawImage(this.frames[frameId], x, canvasY, width, height);
+            if (entity as PhysicsObject) {
+                const physicsObject = entity as PhysicsObject;
+
+                const collisionPoints = [
+                    ...physicsObject.environmentCollisionPoints(),
+                    ...physicsObject.entityCollisionPoints()
+                ]
+
+                for (const point of collisionPoints) {
+                    const { x, y } = playfield.camera.toCanvasPosition(point.x, point.y);
+
+                    ctx.beginPath();
+                    ctx.lineWidth = 1;
+                    ctx.strokeStyle = "red";
+                    ctx.rect(x, y, 1, 1);
+                    ctx.stroke();
+                }
+            }
+
+            return;
+        }
+            
+        ctx.drawImage(targetFrame, x, y, entity.width, entity.height); 
     }
 }

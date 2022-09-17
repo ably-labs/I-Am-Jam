@@ -9,7 +9,7 @@ export class ImageHelpers {
         }
             
         return await new Promise<HTMLImageElement>((resolve, reject) => {
-            var i = new Image();
+            const i = new Image();
             i.onload = (loadEvent: any) => {
                 ImageHelpers.cache.set(url, loadEvent.path[0]);    
                 resolve(loadEvent.path[0]);
@@ -25,11 +25,11 @@ export class ImageHelpers {
     }
 
     public static clone(source: HTMLImageElement) {
-        var canvas = document.createElement("canvas");
+        const canvas = document.createElement("canvas");
         canvas.width = source.width;
         canvas.height = source.height;
-        
-        var context = canvas.getContext("2d");
+
+        const context = canvas.getContext("2d");
         context.drawImage(source, 0, 0);
         
         const image = new Image();
@@ -38,11 +38,11 @@ export class ImageHelpers {
     }
 
     public static mirror(source: HTMLImageElement) {
-        var canvas = document.createElement("canvas");
+        const canvas = document.createElement("canvas");
         canvas.width = source.width;
         canvas.height = source.height;
-        
-        var context = canvas.getContext("2d");
+
+        const context = canvas.getContext("2d");
         context.translate(source.width, 0);
         context.scale(-1, 1);
         context.drawImage(source, 0, 0);

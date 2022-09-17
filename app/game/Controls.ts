@@ -73,7 +73,7 @@ export class Controls {
         });
 
         setInterval(() => {
-            if (this.start && game.finished) {
+            if ((this.start || this.jump) && game.finished) {
                 game.start();
             }
         }, 33);

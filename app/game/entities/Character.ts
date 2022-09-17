@@ -2,50 +2,45 @@ import { Game } from "../Game";
 import { ITickable } from "../behaviours/ITickable";
 import { Killable } from "../behaviours/Killable";
 import { PhysicsObject } from "./PhysicsObject";
-import { Sprite } from "../animation/Sprite";
+import { Sprite, ValidFrameId } from "../animation/Sprite";
 import { IDrawable } from "../behaviours/IDrawable";
 import { IInitialisable } from "../behaviours/IInitilisable";
 
 export class Character extends PhysicsObject implements ITickable, IDrawable, IInitialisable {
 
-    private runningSprite: Sprite;
-    private get currentSprite() { return this.runningSprite; }
+    protected sprite: Sprite;
 
-    constructor(x: number, y: number, width: number, height: number, runningSprite: Sprite) {
+    constructor(x: number, y: number, width: number, height: number, sprite: Sprite) {
         super(x, y, width, height);
         this.addBehaviour(Killable.name, new Killable(this));
-        this.runningSprite = runningSprite;
+        this.sprite = sprite;
     }
 
     public async init() {
-        await this.runningSprite.init();
+        await this.sprite.init();
     }
 
     public async onTick(gameState: Game) {
-        super.onTick(gameState);        
-        this.currentSprite.tick(gameState);
-        this.runningSprite.setDirection(this.facing);
+        await super.onTick(gameState);
+        await this.sprite.tick(gameState);
+        this.sprite.setDirection(this.facing);
     }
 
-    public draw(gameState: Game) {
-        if (!this.isAlive || !this.runningSprite) { 
+    public draw({ playfield, debug }: Game) {
+        if (!this.isAlive || !this.sprite) { 
             return; 
         }
 
-        var screenX = this.x - gameState.playfield.cameraXposition;
-        screenX = screenX > this.x ? this.x : screenX;
-
-        if (gameState.playfield.atLevelEnd()) {
-            screenX = (gameState.playfield.width - (gameState.playfield.map.width - gameState.playfield.cameraXposition - (this.x - gameState.playfield.cameraXposition)));
-        }
-
-        if (this.isJumping || this.isFalling) {      
-            this.currentSprite.drawFrameNumber(gameState, 3, screenX, this.y, this.height, this.width, gameState.playfield.ctx);
+        let frameId: ValidFrameId;
+        if (this.isJumping || this.isFalling) {
+            frameId = 3;
         } else if (this.isMoving) {
-            this.currentSprite.draw(gameState, screenX, this.y, this.height, this.width, gameState.playfield.ctx);
+            frameId = "auto";
         } else {
-            this.currentSprite.drawFrameNumber(gameState, 0, screenX, this.y, this.height, this.width, gameState.playfield.ctx);
+            frameId = "stopped";
         }
+
+        this.sprite.draw(playfield, this, frameId, debug);
     }
 
     public get isAlive() {

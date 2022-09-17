@@ -25,9 +25,9 @@ export class GifAsset extends EntityBase implements IDrawable, IInitialisable {
             return;
         }
 
-        const image = await ImageHelpers.load("/" + this.filename);  
-        var gif = SuperGif({ gif: image } );        
-        await new Promise((res, rej) => {
+        const image = await ImageHelpers.load("/" + this.filename);
+        const gif = SuperGif({gif: image});
+        await new Promise((res) => {
             gif.load(() => {
                 res(gif);
             });

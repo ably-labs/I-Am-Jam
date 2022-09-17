@@ -13,11 +13,11 @@ export class Toast extends PhysicsObject implements ITickable, IDrawable, IIniti
     private rattleCoolOff: number = 0;
     private coolOffTickCounter = 0;
     
-    private initialX: number;
-    private initialY: number;
+    private readonly initialX: number;
+    private readonly initialY: number;
 
-    constructor(x: number, y: number, width: number = -1, height: number = -1) {
-        super(x, y, width, height);
+    constructor(x: number, y: number) {
+        super(x, y, 12, 76);
         this.initialX = x;
         this.initialY = y;
     }
@@ -36,7 +36,7 @@ export class Toast extends PhysicsObject implements ITickable, IDrawable, IIniti
     }
 
     public async onTick(gameState: Game) {   
-        super.onTick(gameState);
+        await super.onTick(gameState);
 
         this.coolOffTickCounter > 0 && this.coolOffTickCounter--;
         this.rattleCoolOff > 0 && this.rattleCoolOff--;
