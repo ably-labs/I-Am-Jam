@@ -11,7 +11,9 @@ export class ImageHelpers {
         return await new Promise<HTMLImageElement>((resolve, reject) => {
             const i = new Image();
             i.onload = (loadEvent: any) => {
-                ImageHelpers.cache.set(url, loadEvent.path[0]);    
+                ImageHelpers.cache.set(url, loadEvent.path[0]);
+
+                console.log("ImageHelpers: loaded", url);
                 resolve(loadEvent.path[0]);
             };
 

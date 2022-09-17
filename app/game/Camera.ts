@@ -44,4 +44,8 @@ export class Camera {
             y: canvasY
         }
     }
+
+    public setTargetContainer(container: HTMLDivElement) {
+        container.appendChild(this.playfield.canvas);
+    }
 }
