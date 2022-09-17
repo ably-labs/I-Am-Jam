@@ -57,14 +57,14 @@ export type EntityRegistration = {
     activationCondition: EntityActivationCallback;
 };
 
-export function alwaysActivate(gameState: Game, entity: EntityBase) {
+export function alwaysActivate() {
     return true;
 }
 
 export function activateWhenOnScreen(gameState: Game, entity: EntityBase): boolean {
     return isDrawable(entity) 
             ? gameState.playfield.camera.isOnScreen(entity)
-            : alwaysActivate(gameState, entity);
+            : alwaysActivate();
 }
 
 export const activateWhenNearPlayer = (activateWhenDistanceFromPlayerIs(800));
@@ -76,6 +76,6 @@ export function activateWhenDistanceFromPlayerIs(distance: number) {
 
         return isDrawable(entity) 
                 ? distanceFromPlayer <= distance
-                : alwaysActivate(gameState, entity);
+                : alwaysActivate();
     }
 }
