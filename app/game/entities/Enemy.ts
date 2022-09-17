@@ -23,10 +23,8 @@ export class Enemy extends Character {
         this.velocityX = -4;
     }
 
-    public get canMakeDecision() { return this.coolOffTickCounter === 0; }
-
     public async onTick(gameState: Game) {
-        super.onTick(gameState);
+        await super.onTick(gameState);
         this.coolOffTickCounter > 0 && this.coolOffTickCounter--;
 
         if (this.collidesWith(gameState.player)) {
@@ -40,7 +38,7 @@ export class Enemy extends Character {
         const imminentDeath = this.aboutToFall(gameState);
         const stuck = this._lastXy.x === this.x && this._lastXy.y === this.y;
 
-        if (imminentDeath || stuck) {            
+        if (imminentDeath || stuck) {
             this.velocityX *= -1;
             this.coolOffTickCounter = 66;
         }

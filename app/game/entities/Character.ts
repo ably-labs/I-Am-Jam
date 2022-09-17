@@ -21,8 +21,8 @@ export class Character extends PhysicsObject implements ITickable, IDrawable, II
     }
 
     public async onTick(gameState: Game) {
-        super.onTick(gameState);        
-        this.sprite.tick(gameState);
+        await super.onTick(gameState);
+        await this.sprite.tick(gameState);
         this.sprite.setDirection(this.facing);
     }
 
@@ -32,7 +32,7 @@ export class Character extends PhysicsObject implements ITickable, IDrawable, II
         }
 
         let frameId: ValidFrameId;
-        if (this.isJumping || this.isFalling) {      
+        if (this.isJumping || this.isFalling) {
             frameId = 3;
         } else if (this.isMoving) {
             frameId = "auto";

@@ -1,5 +1,5 @@
 import { Game } from "../Game";
-import { IDrawable, isDrawable } from "../behaviours/IDrawable";
+import { IDrawable } from "../behaviours/IDrawable";
 import { ITickable } from "../behaviours/ITickable";
 import { Level } from "../levels/Level";
 import { debugTimer } from "../metrics/debugTimer";
@@ -70,21 +70,12 @@ export class Playfield implements ITickable, IDrawable {
         
         const image = this.collisionMapImage = await ImageHelpers.load(level.collisionUrl);
 
-        var hiddenCanvas = document.createElement("CANVAS") as HTMLCanvasElement;
+        const hiddenCanvas = document.createElement("CANVAS") as HTMLCanvasElement;
         hiddenCanvas.setAttribute("width", image.width + "px");
         hiddenCanvas.setAttribute("height", image.height + "px");
 
         this.collisionMap = hiddenCanvas.getContext("2d");
         this.collisionMap.drawImage(image, 0, 0);
-    }
-
-    public getFloorBelowY(x: number, y: number) {
-        for (var tempY = y; tempY <= this.height; tempY++) {
-            if (this.isSolidSurface(x, tempY)) {
-                return tempY;
-            }
-        }
-        return 0;
     }
 
     public isSolidSurface(x: number, y: number) { return this.getPixelType(x, y) == "#"; }
@@ -98,9 +89,9 @@ export class Playfield implements ITickable, IDrawable {
 
         const flippedY = this.height - y;
         const mapData = this.collisionMap.getImageData(x, flippedY, 1, 1);
-        var rawData = mapData.data;
-        var mask = rawData[0] + " " + rawData[1] + " " + rawData[2] + " " + rawData[3];
-        
+        const rawData = mapData.data;
+        const mask = rawData[0] + " " + rawData[1] + " " + rawData[2] + " " + rawData[3];
+
         if (mask == "255 0 0 255")
             return "pit";
 
@@ -129,7 +120,7 @@ export class Playfield implements ITickable, IDrawable {
     }
 
     public draw(gameState: Game) {
-        var drawAtX = this.camera.position * -1;
+        let drawAtX = this.camera.position * -1;
         drawAtX = drawAtX > 0 ? 0 : drawAtX;
         drawAtX = this.atLevelEnd() ? this.levelEndOffset() * -1 : drawAtX;
 

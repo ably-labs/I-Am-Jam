@@ -20,7 +20,7 @@ export abstract class EntityBase implements ITickable, IDrawable {
 
     private behaviours: Map<string, IBehaviour>;
 
-    constructor(x: number, y: number, width: number, height: number) {
+    protected constructor(x: number, y: number, width: number, height: number) {
         this.id = Math.random().toString(36).substr(2, 9);
         this.x = x;
         this.y = y;
@@ -34,7 +34,7 @@ export abstract class EntityBase implements ITickable, IDrawable {
     }
 
     public async tick(gameState: Game) {
-        this.beforeTick(gameState);
+        await this.beforeTick(gameState);
 
         for (const [key, behaviour] of this.behaviours.entries()) {
             const response = await behaviour.act(gameState);
@@ -64,7 +64,7 @@ export abstract class EntityBase implements ITickable, IDrawable {
     }
 
     public behaviour<T = any>(key: string) {
-        return this.behaviours.get(key) as T;
+        return this.behaviours.get(key) as unknown as T;
     }
 
     public hasBehaviour(key: string, callback: (behaviour: IBehaviour) => void) {

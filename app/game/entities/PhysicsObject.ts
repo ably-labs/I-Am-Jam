@@ -39,15 +39,15 @@ export class PhysicsObject extends EntityBase {
 
     public async onTick(gameState: Game) {
         this.applyGravity(gameState);
-        this.applyMovement(gameState);
+        await this.applyMovement(gameState);
     }
 
     public async applyMovement(gameState: Game) {
-        var nextX = this.x + this.velocityX;
-        var nextY = this.y + this.velocityY;
+        let nextX = this.x + this.velocityX;
+        let nextY = this.y + this.velocityY;
         const leadingEdge = this.facing == "RIGHT" ? nextX + this.width : nextX;
-        
-        var walkingIntoSurface = gameState.playfield.isSolidSurface(leadingEdge, this.top);
+
+        const walkingIntoSurface = gameState.playfield.isSolidSurface(leadingEdge, this.top);
 
         if (this.isMoving && walkingIntoSurface) {
             nextX = this.x;
@@ -162,10 +162,7 @@ export class PhysicsObject extends EntityBase {
     public get isJumping() { return this.velocityY > 0; }
     public get isFalling() { return this.velocityY < 0; }
     public get verticalDirection () { return this.isJumping ? 1 : -1 }
-    public get horizontalDirection () { return this.velocityX > 0 ? 1 : -1 }
-    public get isJumpingOrFalling() { return this.velocityY !== 0; }
-    public get jumpingOrFalling() { return this.isJumping ? "JUMPING" : "FALLING"; }
-    
+
     public get leadingEdge() {
         if (this.facing == "LEFT") {
             return this.x;
