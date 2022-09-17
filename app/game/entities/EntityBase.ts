@@ -15,6 +15,9 @@ export abstract class EntityBase implements ITickable, IDrawable {
 
     public facing: Direction;
 
+    public get top() { return this.y + this.height; }
+    public get bottom() { return this.y; }
+
     private behaviours: Map<string, IBehaviour>;
 
     constructor(x: number, y: number, width: number, height: number) {
@@ -81,18 +84,7 @@ export abstract class EntityBase implements ITickable, IDrawable {
             return;
         }
 
-        const distanceOffset = gameState.playfield.cameraXposition > 0 
-                                ? gameState.playfield.cameraXposition
-                                : 0;                    
-                                
-        let drawAtX = (x - distanceOffset);
-
-        if (gameState.playfield.atLevelEnd()) {
-            drawAtX = (gameState.playfield.width - (gameState.playfield.map.width - gameState.playfield.cameraXposition - drawAtX));
-        }  
-
-        const canvasY = gameState.playfield.height - y - image.height;
-
-        gameState.playfield.ctx.drawImage(image, drawAtX, canvasY);
+        const position = gameState.playfield.camera.toCanvasPosition(x, y, image.height);
+        gameState.playfield.ctx.drawImage(image, position.x, position.y);
     }
 }

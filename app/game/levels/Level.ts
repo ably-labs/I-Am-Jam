@@ -63,7 +63,7 @@ export function alwaysActivate(gameState: Game, entity: EntityBase) {
 
 export function activateWhenOnScreen(gameState: Game, entity: EntityBase): boolean {
     return isDrawable(entity) 
-            ? entity.x < gameState.playfield.cameraXposition + gameState.playfield.width 
+            ? gameState.playfield.camera.isOnScreen(entity)
             : alwaysActivate(gameState, entity);
 }
 

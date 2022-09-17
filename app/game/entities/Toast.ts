@@ -16,8 +16,8 @@ export class Toast extends PhysicsObject implements ITickable, IDrawable, IIniti
     private initialX: number;
     private initialY: number;
 
-    constructor(x: number, y: number, width: number = -1, height: number = -1) {
-        super(x, y, width, height);
+    constructor(x: number, y: number) {
+        super(x, y, 12, 76);
         this.initialX = x;
         this.initialY = y;
     }
