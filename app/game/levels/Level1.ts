@@ -17,7 +17,7 @@ export class Level1 extends Level {
         this.addEntity(new GifAsset(3072, 137, "sponge.gif", 15));
 
         this.addEntity(new Enemy(1000, 100));
-        this.addEntity(new Enemy(1600, 100), activateWhenNearPlayer);
+        this.addEntity(new Enemy(1600, 100));
         this.addEntity(new Enemy(3700, 300));
         this.addEntity(new Enemy(5600, 100));
         this.addEntity(new Enemy(6500, 100));
