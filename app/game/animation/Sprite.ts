@@ -9,17 +9,13 @@ import { PhysicsObject } from "../entities/PhysicsObject";
 export type ValidFrameId = number | "auto" | "stopped";
 
 export class Sprite implements ITickable, IInitialisable {
-    private filePattern: string;
-    private frameCount: number;
+    private readonly filePattern: string;
+    private readonly frameCount: number;
 
-    private frames: HTMLImageElement[];
+    private readonly frames: HTMLImageElement[];
     private facing: Direction;
     private currentFrameId: number;
-    private delay: number;
-
-    public get firstFrame() { return this.frames[1]; }
-    public get currentFrame() { return this.frames[this.currentFrameId]; }
-    public get lastFrame() { return this.frames[this.frames.length - 1]; }
+    private readonly delay: number;
 
     constructor(filePattern: string, frameCount: number, delay: number = 5) {
         this.filePattern = filePattern;
@@ -31,7 +27,7 @@ export class Sprite implements ITickable, IInitialisable {
     }
     
     public async init() {
-        for (var id = 0; id < this.frameCount; id ++) {
+        for (let id = 0; id < this.frameCount; id ++) {
             const pattern = this.filePattern + "." + (id+1) + ".png";
 
             const cachedResource = await ImageHelpers.load(pattern);

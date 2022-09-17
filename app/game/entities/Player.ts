@@ -28,7 +28,7 @@ export class Player extends Character {
         }
 
         this.processControls(gameState);
-        super.onTick(gameState);
+        await super.onTick(gameState);
 
         this.saveFile.push(this.x, this.y);
     }

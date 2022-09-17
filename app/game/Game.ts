@@ -88,8 +88,8 @@ export class Game {
             this.stop({ reason: "dead" });
         }
 
-        this.playfield.tick(this);
-        this.player.tick(this);
+        await this.playfield.tick(this);
+        await this.player.tick(this);
         this.ghosts.forEach(x => x.tick(this));
 
         let potentialDrawables = [
