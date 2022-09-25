@@ -39,5 +39,6 @@ export class AblyGhostRepository implements IGhostRepository {
 
     public onGhostAdded(callback: (ghost: SaveFile) => void) {
         this.callback = callback;
+        return this;
     }
 }

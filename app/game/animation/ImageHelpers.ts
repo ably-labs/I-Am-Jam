@@ -11,7 +11,9 @@ export class ImageHelpers {
         return await new Promise<HTMLImageElement>((resolve, reject) => {
             const i = new Image();
             i.onload = (loadEvent: any) => {
-                ImageHelpers.cache.set(url, loadEvent.path[0]);    
+                ImageHelpers.cache.set(url, loadEvent.path[0]);
+
+                console.log("ImageHelpers: loaded", url);
                 resolve(loadEvent.path[0]);
             };
 
@@ -31,10 +33,7 @@ export class ImageHelpers {
 
         const context = canvas.getContext("2d");
         context.drawImage(source, 0, 0);
-        
-        const image = new Image();
-        image.src = canvas.toDataURL();
-        return image;
+        return canvas;
     }
 
     public static mirror(source: HTMLImageElement) {
@@ -46,7 +45,6 @@ export class ImageHelpers {
         context.translate(source.width, 0);
         context.scale(-1, 1);
         context.drawImage(source, 0, 0);
-        
-        source.src = canvas.toDataURL();
+        return canvas;
     }
 }

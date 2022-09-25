@@ -124,7 +124,7 @@ export class Playfield implements ITickable, IDrawable {
         drawAtX = drawAtX > 0 ? 0 : drawAtX;
         drawAtX = this.atLevelEnd() ? this.levelEndOffset() * -1 : drawAtX;
 
-        const visual = this.parent.debug ? this.collisionMapImage : this.map;
+        const visual = this.parent.configuration.debug ? this.collisionMapImage : this.map;
 
         this.ctx.drawImage(visual, drawAtX, 0);
     }

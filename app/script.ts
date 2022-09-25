@@ -1,39 +1,24 @@
-import { SaveFile } from "./game/SaveFile";
-import { AblyGhostRepository } from "./game/ghosts/AblyGhostRepository";
-import { Game } from "./game/Game";
-import { LocalStorageGhostRepository } from "./game/ghosts/LocalStorageGhostRepository";
+import {HubSpotUi} from "./HubSpotUi";
+import {createGameUi} from "./GameUi";
+
+const requireSignup = false;
 
 (async () => {
-    const debugCheckbox = document.getElementById("debug") as HTMLInputElement;
-    const container = document.getElementById("container") as HTMLDivElement;
+    const startGameFunction = await createGameUi();
 
-    const game = new Game(window.innerWidth - 20, 552);
+    if (requireSignup) {
+        HubSpotUi.createForm((form) => {
+            HubSpotUi.hideForm();
 
-    const ghostRepo = new AblyGhostRepository();
-    ghostRepo.onGhostAdded((ghost: SaveFile) => {
-        game.addGhost(ghost);
-    });
-
-    // Ably only, to wait for rewind to happen.
-    if (ghostRepo.bufferGhosts) {
-        await ghostRepo.bufferGhosts();
+            // (╯°□°）╯︵ ┻━┻
+            const firstName = form.data.data[1].value;
+            const lastName = form.data.data[2].value;
+            startGameFunction(`${firstName} ${lastName}`);
+        });
+    } else {
+        HubSpotUi.hideForm();
+        startGameFunction("Default Player");
     }
-
-    game.onGameEnd((reason: string, data: SaveFile) => {
-        console.log("Game ended:", reason, data);
-        console.log("Recorded", data, "frames of input");
-        ghostRepo.saveGhost(data);
-    });
-
-    container.appendChild(game.playfield.canvas);  
-    game.debug = debugCheckbox.checked ? true : false; 
-
-    game.start();
-
-    debugCheckbox.addEventListener("change", (value: any) => {
-        game.debug = value.target.checked;
-        //game.start();
-    });
 
 })();
 export { };

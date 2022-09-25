@@ -1,11 +1,12 @@
-import { Controls } from "./Controls";
-import { Sounds } from "./Sounds";
-import { Player } from "./entities/Player";
-import { Playfield } from "./entities/Playfield";
-import { Level1 } from "./levels/Level1";
-import { SaveFile } from "./SaveFile";
-import { Ghost } from "./entities/Ghost";
-import { IDrawable, isDrawable } from "./behaviours/IDrawable";
+import {Controls} from "./Controls";
+import {Sounds} from "./Sounds";
+import {Player} from "./entities/Player";
+import {Playfield} from "./entities/Playfield";
+import {Level1} from "./levels/Level1";
+import {SaveFile} from "./SaveFile";
+import {Ghost} from "./entities/Ghost";
+import {IDrawable, isDrawable} from "./behaviours/IDrawable";
+import {GameConfiguration} from "./GameConfiguration";
 
 export class Game {
     public finished: boolean;
@@ -13,8 +14,8 @@ export class Game {
     public sounds: Sounds;
     public playfield: Playfield;
     public player: Player;
-    
-    public debug: boolean;
+
+    public configuration: GameConfiguration;
 
     private timer: any;
 
@@ -23,13 +24,14 @@ export class Game {
 
     private gameEndCallback: ((reason: string, data: SaveFile) => void);
 
-    constructor(width: number = 640, height: number = 480) {
-        this.debug = false;
+    constructor(config: GameConfiguration) {
+        this.configuration = config;
+
         this.finished = false;
         this.controls = new Controls();
-        this.sounds = new Sounds(false);
+        this.sounds = new Sounds(config.playSound);
 
-        this.playfield = new Playfield(this, width, height);
+        this.playfield = new Playfield(this, config.width, config.height);
         this.player = null;
         this.saves = [];
         this.ghosts = [];
@@ -104,7 +106,11 @@ export class Game {
                                 .sort((a, b) => a.zIndex - b.zIndex);
 
         for (const entity of orderedDrawables) {
-            entity.draw(this);
+            try {
+                entity.draw(this);
+            } catch (e) {
+                console.error("Failed to draw sprite", e);
+            }
         }
 
         this.timer = window.setTimeout(async () => {

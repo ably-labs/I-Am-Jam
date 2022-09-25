@@ -26,7 +26,7 @@ export class Character extends PhysicsObject implements ITickable, IDrawable, II
         this.sprite.setDirection(this.facing);
     }
 
-    public draw({ playfield, debug }: Game) {
+    public draw({ playfield, configuration }: Game) {
         if (!this.isAlive || !this.sprite) { 
             return; 
         }
@@ -40,7 +40,7 @@ export class Character extends PhysicsObject implements ITickable, IDrawable, II
             frameId = "stopped";
         }
 
-        this.sprite.draw(playfield, this, frameId, debug);
+        this.sprite.draw(playfield, this, frameId, configuration.debug);
     }
 
     public get isAlive() {

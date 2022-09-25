@@ -58,7 +58,7 @@ describe("PhysicsObject", () => {
         expect(physicsObject.bottom).toBe(0);
     }, 33);
 
-    it("can move vertically, but movemet is cut short by obstacle half way through", () => {
+    it("can move vertically, but movement is cut short by obstacle half way through", () => {
         const playfield = {
             isSolidSurface: (x: number, y: number) => {
                 return x < 0 || x >= 1000 || y < 0 || y >= 1000;
