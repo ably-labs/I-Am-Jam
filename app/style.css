@@ -1,4 +1,135 @@
+:root {
+       --dark: #221a56;
+      --grape: #762d89;
+  --raspberry: #b03c94;
+  --strawberry: #f03476;
+  --marmalade: #ff8b3c;
+}
+
 body {
+  margin: 0;
   font-family: Arial, Helvetica, sans-serif;
-  background-color: antiquewhite;
+  background-image: linear-gradient(135deg, #221a56 13.11%, #762d89 13.11%, #762d89 50%, #221a56 50%, #221a56 63.11%, #762d89 63.11%, #762d89 100%);
+  background-size: 1725.34px 1725.34px;
+  font-family: 'Grandstander', cursive;
+  color: white;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 2rem;
+}
+
+h1 {
+  margin: 0;
+  padding: 2rem 0 1.6rem;
+  padding-left: 4.5rem;
+  font-size: 2.6em;
+  letter-spacing: 2px;
+  background: url(android-chrome-512x512.png) no-repeat left center;
+  background-size: 1.2em;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ably {
+  display: block;
+  width: 120px;
+  height: 3em;
+  color: transparent;
+  background: url(./public/ably.png) no-repeat center;
+  background-size: 120px;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.start {
+  visibility: hidden;
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  display: block;
+  border: 0;
+  padding: 2.8vw 3vw 2vw;
+  border-radius: 2vw;
+  font-family: 'Grandstander', cursive;
+  font-size: 6vw;
+  background-color: var(--dark);
+  color: var(--marmalade);
+  transform: translate(50%, -50%);
+}
+
+.debug {
+  position: relative;
+  display: flex;
+  width: 54px;
+  height: 30px;
+  margin: 1rem;
+  float: right;
+}
+
+.debug-text {
+  position: absolute;
+  left: -56px;
+  font-weight: bold;
+  line-height: 30px;
+  color: white;
+}
+
+.checkbox {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #aaa;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 30px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 22px;
+  left: 4px;
+  bottom: 4px;
+  background-color: var(--dark);
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+.checkbox:checked + .slider {
+  background-color: white;
+}
+
+.checkbox:checked + .slider:before {
+  -webkit-transform: translateX(24px);
+  -ms-transform: translateX(24px);
+  transform: translateX(24px);
+  background-color: var(--strawberry);
+  box-shadow: -3px 0px 1px var(--dark);
+}
+
+.intro {
+  margin: 1rem 2rem;
 }

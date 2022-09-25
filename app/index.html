@@ -5,18 +5,46 @@
   <script charset="utf-8" type="text/javascript" src="//js.hsforms.net/forms/v2.js"></script>
   <script src="./script.ts" type="module"></script>
   <script src="./analytics.ts" type="module"></script>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Grandstander:wght@500&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="./style.css">
 </head>
 
 <body>
+  <header>
+    <h1>I am JAM</h1>
+    <ul>
+      <li><a class="ably" href="https://ably.com">Ably</a></li>
+    </ul>
+  </header>
 
   <div id="signup-form"></div>
 
   <div id="game">
-      <button id="btn">Start</button>
-      Debug: <input type="checkbox" id="debug" name="debug">
-      <div id="container"></div>
-      <div id="stats"></div>
+    <div id="container" class="container"></div>
+    <div id="stats"></div>
+    <label class="debug">
+      <span class="debug-text">Debug:</span>
+      <input type="checkbox" class="checkbox" id="debug" name="debug">
+      <span class="slider"></span>
+    </label>
+    <button id="start" class="start">Start &#9654;</button>
+    <div class="intro">
+      <p>You are fruit, you want to become Jam. Make your way through the kitchen and into the jam pan to win.</p>
+      <p>WSAD to walk. Hold shift to run. SPACE to jump.</p>
+    </div>
   </div>
 
 </body>
