@@ -132,7 +132,38 @@ ul {
 
 .intro {
   margin: 1rem 2rem;
+  margin-right: 200px;
   padding-bottom: 140px;
   background: url(./public/wsad.png) no-repeat bottom left;
   background-size: 400px;
+}
+
+.loading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  position: absolute;
+  top: 200px;
+  left: 50%;
+  width: 40vw;
+  max-width: 250px;
+  max-height: 250px;
+  height: 40vw;
+  background: url(./public/spread.gif) no-repeat center;
+  background-size: 100%;
+  z-index: 1;
+  transform: translate(-50%, 0%);
+}
+
+.loading::after {
+  content: "loading...";
+  font-size: 3vw;
+  color: white;
+  transform: translateY(3vw);
+}
+
+.container {
+  height: ;
+  position: relative;
+  z-index: 2;
 }
