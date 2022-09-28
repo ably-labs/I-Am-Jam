@@ -102,10 +102,12 @@ export class Controls {
                         game.controls.right = true;
                     }
 
-                    if (x < this._touchControlsCenterPoint - 50) {
+                    if (x < (this._touchControlsCenterPoint - 50)) {
                         game.controls.run = true;
-                    } else if (x > this._touchControlsCenterPoint + 50) {
+                    } else if (x > (this._touchControlsCenterPoint + 50)) {
                         game.controls.run = true;
+                    } else {
+                        game.controls.run = false;
                     }
 
                     if (y <= 150) {
@@ -115,13 +117,7 @@ export class Controls {
                     }
 
                 } else {
-
-                    const width = window.innerWidth;
-                    const twentyPercentOfWidth = width / 5;
-
-                    if (x > width - twentyPercentOfWidth) {
-                        game.controls.jump = true;
-                    }
+                    game.controls.jump = true;
                 }
             }
         };
@@ -146,6 +142,7 @@ export class Controls {
                 game.controls.right = false;
                 game.controls.extraHeight = false;
                 game.controls.down = false;
+                game.controls.run = false;
             } else {
                 game.controls.jump = false;
             }
