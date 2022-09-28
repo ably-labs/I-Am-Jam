@@ -115,8 +115,7 @@ export class Playfield implements ITickable, IDrawable {
 
     public writeText(text: string) {
         this.ctx.font = "30px Arial";
-        this.ctx.fillStyle = "black";
-        this.ctx.fillText(text, 10, 50);
+
     }
 
     public draw(gameState: Game) {

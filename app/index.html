@@ -1,5 +1,6 @@
 <html>
-  <head>
+
+<head>
   <meta charset="utf-8">
   <title>I am JAM</title>
   <script charset="utf-8" type="text/javascript" src="//js.hsforms.net/forms/v2.js"></script>
@@ -33,7 +34,15 @@
   <div id="signup-form"></div>
 
   <div id="game">
+    <div class="loading"></div>
     <div id="container" class="container"></div>
+    <div class="mobile-control dpad" id="up">^</div>
+    <div class="mobile-control dpad" id="down">v</div>
+    <div class="mobile-control dpad" id="left">&laquo;</div>
+    <div class="mobile-control dpad" id="right">></div>
+    <div class="mobile-control abutton" id="a">a</div>
+    <div class="mobile-control bbutton" id="b">b</div>
+
     <div id="stats"></div>
     <label class="debug">
       <span class="debug-text">Debug:</span>
@@ -42,8 +51,9 @@
     </label>
     <button id="start" class="start">Start &#9654;</button>
     <div class="intro">
-      <p>You are fruit, you want to become Jam. Make your way through the kitchen and into the jam pan to win.</p>
-      <p>WSAD to walk. Hold shift to run. SPACE to jump.</p>
+      <p>You are fruit, you want to become Jam. Make your way through the kitchen and into the jam pan to win.<br><br>
+        WSAD to walk. Hold shift to run. SPACE to jump.</p>
+      <img class="controls" src="wsad.png" alt="an illustration of the WSAD keys, space bar and shift keys">
     </div>
   </div>
 
