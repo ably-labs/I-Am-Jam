@@ -9,12 +9,12 @@ export class Controls {
     public run: boolean;
     public start: boolean;
 
-    private mapping = { 
-        65: "left", 
-        68: "right", 
-        87: "extraHeight", 
-        83: "down", 
-        16: "run", 
+    private mapping = {
+        65: "left",
+        68: "right",
+        87: "extraHeight",
+        83: "down",
+        16: "run",
         32: "jump",
         13: "start",
         27: "start",
@@ -25,6 +25,14 @@ export class Controls {
     };
 
     private gamepadPollingInterval: any;
+    private eventListenerController: any;
+
+    private readonly _touchControlsCenterPoint = 150;
+
+
+    constructor() {
+        this.eventListenerController = new AbortController();
+    }
 
     public buttonPress(keyInfo: any) {
         this[this.mapping[keyInfo.keyCode]] = true;
@@ -50,32 +58,127 @@ export class Controls {
     }
 
     public connect(game: Game) {
+        if (this.eventListenerController) {
+            this.eventListenerController.abort();
+            this.eventListenerController = new AbortController();
+        }
+
+        const cancellationToken = { signal : this.eventListenerController.signal };
+
         window.addEventListener("keydown", (keyInfo) => {
-            game.controls.buttonPress(event); 
-        }, false);
+            game.controls.buttonPress(event);
+        }, cancellationToken);
 
-        window.addEventListener("keyup", (keyInfo) => { 
-            game.controls.buttonRelease(event); 
-        }, false);
+        window.addEventListener("keyup", (keyInfo) => {
+            game.controls.buttonRelease(event);
+        }, cancellationToken);
 
-        window.addEventListener("gamepadconnected", (e) => {        
+        window.addEventListener("gamepadconnected", (e) => {
             console.log("Gamepad connected at index %d: %s. %d buttons, %d axes.",
-              e.gamepad.index, e.gamepad.id,
-              e.gamepad.buttons.length, e.gamepad.axes.length);
-              
+                e.gamepad.index, e.gamepad.id,
+                e.gamepad.buttons.length, e.gamepad.axes.length);
+
             const pad = navigator.getGamepads()[e.gamepad.index];
             game.controls.addGamepad(pad);
-        });
+        }, cancellationToken);
 
         window.addEventListener("gamepaddisconnected", (e) => {
             console.log("Gamepad disconnected from index %d: %s", e.gamepad.index, e.gamepad.id);
             clearInterval(this.gamepadPollingInterval);
-        });
+        }, cancellationToken);
+
+        const processTouch = (e) => {
+            const touches = touchEventsToCoords(e);
+
+            for (let { x, y } of touches) {
+
+                if (x <= window.innerWidth / 2) {
+
+                    if (x < this._touchControlsCenterPoint) {
+                        game.controls.left = true;
+                        game.controls.right = false;
+                    } else if (x > this._touchControlsCenterPoint) {
+                        game.controls.left = false;
+                        game.controls.right = true;
+                    }
+
+                    if (x < this._touchControlsCenterPoint - 50) {
+                        game.controls.run = true;
+                    } else if (x > this._touchControlsCenterPoint + 50) {
+                        game.controls.run = true;
+                    }
+
+                    if (y <= 150) {
+                        game.controls.extraHeight = true;
+                    } else if (y > 150) {
+                        game.controls.extraHeight = false;
+                    }
+
+                } else {
+
+                    const width = window.innerWidth;
+                    const twentyPercentOfWidth = width / 5;
+
+                    if (x > width - twentyPercentOfWidth) {
+                        game.controls.jump = true;
+                    }
+                }
+            }
+        };
+
+        window.addEventListener("touchstart", (e) => {
+            processTouch(e);
+        }, cancellationToken);
+
+        window.addEventListener("touchmove", (e) => {
+            processTouch(e);
+        }, cancellationToken);
+
+        window.addEventListener("touchend", (e) => {
+
+            const rect = e.target as HTMLCanvasElement;
+            const targetRect = rect.getBoundingClientRect();
+            const x = e.changedTouches[0].pageX - targetRect.left;
+            const y = e.changedTouches[0].pageY - targetRect.top;
+
+            if (x <= window.innerWidth / 2) {
+                game.controls.left = false;
+                game.controls.right = false;
+                game.controls.extraHeight = false;
+                game.controls.down = false;
+            } else {
+                game.controls.jump = false;
+            }
+
+        }, cancellationToken);
+
+        console.log("added event listeners");
 
         setInterval(() => {
+
+            // Control polling loop
+
+
             if ((this.start || this.jump) && game.finished) {
                 game.start();
             }
         }, 33);
     }
+}
+
+
+function touchEventsToCoords(e) {
+    const rect = e.target as HTMLCanvasElement;
+    const targetRect = rect.getBoundingClientRect();
+
+    const touchPositions = [];
+
+    for (let i = 0; i < e.touches.length; i++) {
+        const touch = e.touches[i];
+        const x = touch.pageX - targetRect.left;
+        const y = touch.pageY - targetRect.top;
+        touchPositions.push({ x, y });
+    }
+
+    return touchPositions;
 }
