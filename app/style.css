@@ -94,7 +94,6 @@ ul {
   height: 0;
 }
 
-/* The slider */
 .slider {
   position: absolute;
   cursor: pointer;
@@ -205,24 +204,13 @@ ul {
   z-index: 2;
 }
 
-.mobile-control {
-  display: none;
-}
-
-@media (min-width: 400px) {
-  .mobile-control {
-    display: inline;
-    background-color: red;
-    color: white;
-    font-weight: bold;
-  }
-}
-
-@media (max-width: 900px) {
+@media (min-width: 900px) {
   header {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    width: auto;
     margin: 0 2rem;
   }
 
@@ -237,7 +225,7 @@ ul {
   }
 
   .ably {
-  display: block;
+    display: block;
     width: 120px;
     height: 3em;
     color: transparent;
