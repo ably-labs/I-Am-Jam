@@ -5,7 +5,7 @@ import { Scoreboard } from "./game/highscores/Scoreboard";
 const requireSignup = false;
 
 (async () => {
-    const startGameFunction = await createGameUi(onGameEnd);
+    const startGameFunction = await createGameUi(onGameStart, onGameEnd);
 
     if (requireSignup) {
         HubSpotUi.createForm((form) => {
@@ -22,6 +22,10 @@ const requireSignup = false;
     }
 
 })();
+
+function onGameStart() {
+    // Clear any existing UI bits
+}
 
 function onGameEnd(scoreboard: Scoreboard) {
     alert("Game ended! Scoreboard: " + JSON.stringify(scoreboard));

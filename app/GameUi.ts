@@ -17,9 +17,10 @@ const configuration: GameConfiguration = {
     playSound: false
 };
 
+type onGamestartCallback = () => void;
 type onGameEndCallback = (scoreboard: Scoreboard) => void;
 
-export async function createGameUi(onGameEnd: onGameEndCallback) {
+export async function createGameUi(onGameStart: onGamestartCallback, onGameEnd: onGameEndCallback) {
     const game = new Game(configuration);
 
     const scoresRepo = new AblyHighScoreRepository();
@@ -53,6 +54,8 @@ export async function createGameUi(onGameEnd: onGameEndCallback) {
         gameUi.style.display = "block";
         game.setPlayerName(playerName);
         game.start();
+
+        onGameStart();
     }
 
     return startGameFunction;
