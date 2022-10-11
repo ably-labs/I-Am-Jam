@@ -1,13 +1,10 @@
 import {HubSpotUi} from "./HubSpotUi";
 import {createGameUi} from "./GameUi";
 import { Scoreboard } from "./game/highscores/Scoreboard";
-import { validateOrientation } from "./orientation";
 
 const requireSignup = false;
 
 (async () => {
-    validateOrientation();
-
     const startGameFunction = await createGameUi(onGameStart, onGameEnd);
 
     if (requireSignup) {
