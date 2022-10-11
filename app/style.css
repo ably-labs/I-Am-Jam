@@ -232,4 +232,8 @@ ul {
     background: url(./public/ably.png) no-repeat center;
     background-size: 120px;
   }
+
+  #orientation-warning {
+    display: none;
+  }
 }
