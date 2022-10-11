@@ -19,8 +19,12 @@ export class Game {
 
     private timer: any;
 
+    private startedAt: Date;
+    private endedAt: Date;
     private saves: SaveFile[];
     private ghosts: Ghost[];
+
+    private playerName: string;
 
     private gameEndCallback: ((reason: string, data: SaveFile) => void);
 
@@ -40,6 +44,10 @@ export class Game {
         this.controls.connect(this);
     }
 
+    setPlayerName(playerName: string) {
+        this.playerName = playerName;
+    }
+
     public addGhost(save: SaveFile) {
         this.saves.push(save);
 
@@ -54,8 +62,8 @@ export class Game {
             window.clearTimeout(this.timer);
         }
 
+        this.startedAt = new Date();
         this.ghosts = this.saves.map(x => new Ghost(x));
-
         this.player = new Player();
         
         await this.player.init();
@@ -70,9 +78,16 @@ export class Game {
     }
 
     public stop(message: { reason: string }) {
+        this.endedAt = new Date();
         this.finished = true;
+        
         console.log("Game ended:", message.reason);
         window.clearTimeout(this.timer);
+
+        const save = this.player.saveFile;
+        save.playtime = this.endedAt.getTime() - this.startedAt.getTime();
+        save.completed = message.reason !== "dead";
+        save.playerName = this.playerName;
 
         this.gameEndCallback(message.reason, this.player.saveFile);
     }

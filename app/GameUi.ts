@@ -2,6 +2,8 @@ import { SaveFile } from "./game/SaveFile";
 import { AblyGhostRepository } from "./game/ghosts/AblyGhostRepository";
 import { Game } from "./game/Game";
 import {GameConfiguration} from "./game/GameConfiguration";
+import { AblyHighScoreRepository } from "./game/highscores/AblyHighScoreRepository";
+import { Scoreboard } from "./game/highscores/Scoreboard";
 
 const gameUi = document.getElementById("game") as HTMLDivElement;
 const debugCheckbox = document.getElementById("debug") as HTMLInputElement;
@@ -15,9 +17,12 @@ const configuration: GameConfiguration = {
     playSound: false
 };
 
-export async function createGameUi() {
+type onGameEndCallback = (scoreboard: Scoreboard) => void;
+
+export async function createGameUi(onGameEnd: onGameEndCallback) {
     const game = new Game(configuration);
 
+    const scoresRepo = new AblyHighScoreRepository();
     const ghostRepo = new AblyGhostRepository().onGhostAdded((ghost: SaveFile) => {
         game.addGhost(ghost);
     });
@@ -26,10 +31,16 @@ export async function createGameUi() {
         await ghostRepo.bufferGhosts();
     }
 
-    game.onGameEnd((reason: string, data: SaveFile) => {
+    game.onGameEnd(async (reason: string, data: SaveFile) => {
         console.log("Game ended:", reason, data);
         console.log("Recorded", data, "frames of input");
         ghostRepo.saveGhost(data);
+
+        const scores = data.completed
+            ? await scoresRepo.updateGlobalScoreboard(data.playerName, data.playtime) 
+            : await scoresRepo.getScoreboard();
+
+        onGameEnd(scores);        
     });
 
     debugCheckbox.addEventListener("change", (value: any) => {
@@ -40,6 +51,7 @@ export async function createGameUi() {
 
     const startGameFunction = (playerName: string) => {
         gameUi.style.display = "block";
+        game.setPlayerName(playerName);
         game.start();
     }
 

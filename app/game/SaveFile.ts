@@ -1,6 +1,9 @@
 export class SaveFile {
     public recording: { x: number; y: number; }[];
     public date: Date;
+    public playtime: number;
+    public completed: boolean;
+    public playerName: string;
 
     constructor(date: Date = new Date()) {
         this.recording = [];
