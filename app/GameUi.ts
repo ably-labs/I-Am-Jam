@@ -32,6 +32,10 @@ export async function createGameUi(onGameStart: onGamestartCallback, onGameEnd: 
         await ghostRepo.bufferGhosts();
     }
 
+    game.onGameStart(() => {        
+        onGameStart();
+    });
+
     game.onGameEnd(async (reason: string, data: SaveFile) => {
         console.log("Game ended:", reason, data);
         console.log("Recorded", data, "frames of input");
@@ -54,8 +58,6 @@ export async function createGameUi(onGameStart: onGamestartCallback, onGameEnd: 
         gameUi.style.display = "block";
         game.setPlayerName(playerName);
         game.start();
-
-        onGameStart();
     }
 
     return startGameFunction;

@@ -64,6 +64,8 @@ export class Game {
             window.clearTimeout(this.timer);
         }
 
+        this.gameStartCallback();
+
         this.startedAt = new Date();
         this.ghosts = this.saves.map(x => new Ghost(x));
         this.player = new Player();
