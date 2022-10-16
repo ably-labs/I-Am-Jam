@@ -27,7 +27,7 @@
   <link rel="stylesheet" href="./style.css">
 </head>
 
-<body>
+<body class="gameunknown">
   <header>
     <h1>I am JAM</h1>
     <ul>
@@ -46,13 +46,24 @@
       <input type="checkbox" class="checkbox" id="debug" name="debug">
       <span class="slider"></span>
     </label>
-    <button id="start" class="start">Start &#9654;</button>
     <div class="intro">
       <p>You are fruit, you want to become Jam. Make your way through the kitchen and into the jam pan to win.<br><br>
         WSAD to walk. Hold shift to run. SPACE to jump.</p>
       <img class="controls" src="wsad.png" alt="an illustration of the WSAD keys, space bar and shift keys">
     </div>
   </div>
+
+  <div id="scores">
+    <h2>High Scores</h2>
+    <div id="scores-list"></div>
+  </div>
+
+  <template id="score-item">
+    <div class="score">
+      <span class="name"></span>
+      <span class="score"></span>
+    </div>
+  </template>
 
   <div id="orientation-warning">
     <p>Please rotate your device to landscape mode.</p>

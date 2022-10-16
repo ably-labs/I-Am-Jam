@@ -26,6 +26,7 @@ export class Game {
 
     private playerName: string;
 
+    private gameStartCallback: () => void;
     private gameEndCallback: ((reason: string, data: SaveFile) => void);
 
     constructor(config: GameConfiguration) {
@@ -40,6 +41,7 @@ export class Game {
         this.saves = [];
         this.ghosts = [];
 
+        this.gameStartCallback = () => {};
         this.gameEndCallback = (_, __) => {};
         this.controls.connect(this);
     }
@@ -91,6 +93,10 @@ export class Game {
 
         this.gameEndCallback(message.reason, this.player.saveFile);
     }
+
+    public onGameStart(cb: () => void) {
+        this.gameStartCallback = cb;
+    } 
 
     public onGameEnd(cb: (reason: string, data: SaveFile) => void) {
         this.gameEndCallback = cb;

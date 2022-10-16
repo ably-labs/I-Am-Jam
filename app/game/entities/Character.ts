@@ -27,7 +27,11 @@ export class Character extends PhysicsObject implements ITickable, IDrawable, II
     }
 
     public draw({ playfield, configuration }: Game) {
-        if (!this.isAlive || !this.sprite) { 
+        if (!this.sprite) {
+            return;
+        }
+        
+        if (!this.isAlive) { 
             return; 
         }
 

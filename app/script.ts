@@ -23,11 +23,26 @@ const requireSignup = false;
 })();
 
 function onGameStart() {
-    // Clear any existing UI bits
+    console.log("start");
+    document.body.classList.remove("gameover");
+    document.body.classList.add("gameactive");
 }
 
 function onGameEnd(scoreboard: Scoreboard) {
-    alert("Game ended! Scoreboard: " + JSON.stringify(scoreboard));
+    document.body.classList.remove("gameactive");
+    document.body.classList.add("gameover");
+
+    const tempate = document.getElementById("score-item") as HTMLTemplateElement;
+    const scoreboardContainer = document.getElementById("scores-list") as HTMLDivElement;
+
+    scoreboardContainer.innerHTML = "";
+
+    for (const score of scoreboard.scores) {
+        const clone = tempate.content.cloneNode(true) as HTMLDivElement;
+        clone.querySelector(".name").textContent = score.name;
+        clone.querySelector(".score").textContent = score.score.toString();
+        scoreboardContainer.appendChild(clone);
+    }
 }
 
 export { };

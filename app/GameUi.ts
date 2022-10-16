@@ -11,7 +11,7 @@ const container = document.getElementById("container") as HTMLDivElement;
 gameUi.style.display = "none";
 
 const configuration: GameConfiguration = {
-    width: window.innerWidth,
+    width: window.innerWidth >= 1000 ? 1000 : window.innerWidth,
     height: 552,
     debug: debugCheckbox.checked,
     playSound: false
