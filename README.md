@@ -10,9 +10,11 @@ The JamStack Platformer Game
 * Game over screen
 * Game won screen
 * Scoreboard
-* Finish animations
-* Mobile controls
+* Fix plant shelf on background
+* Mobile sizing
 * Readme writeup
+* Add player name to player
+* Realtime Overview view
 
 ## Usage
 Create a respository based on this repository.
