@@ -7,7 +7,7 @@ export class Player extends Character {
     public saveFile: SaveFile;
 
     constructor() {
-        super(360, 300, 30, 30, new Sprite("graphics/player", 5));
+        super(360, 300, 30, 30, new Sprite("graphics/player", 5), new Sprite("graphics/player", 5));
         this.saveFile = new SaveFile();
     }
 

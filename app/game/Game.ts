@@ -67,8 +67,6 @@ export class Game {
             window.clearTimeout(this.timer);
         }
 
-        this.gameStartCallback();
-
         this.startedAt = new Date();
         this.schedule = new Scheduler();
 
@@ -82,6 +80,8 @@ export class Game {
         }
         
         this.sounds.backgroundMusic();
+        
+        this.gameStartCallback();
 
         await this.loop();
     }
@@ -115,7 +115,7 @@ export class Game {
         }
 
         if (!this.player.isAlive) {
-            this.schedule.scheduleTask(3000, (state: Game) => state.stop({ reason: "dead" }));
+            this.schedule.scheduleTaskOnce(3000, (state: Game) => state.stop({ reason: "dead" }));
         }
 
         const elapsed = Date.now() - this.startedAt.getTime();
@@ -154,9 +154,11 @@ export class Game {
 
 class Scheduler {    
     private schedule: ScheduledTask[];
+    private tasksThatHaveBeenScheduled: string[];
 
     constructor() {
         this.schedule = [];
+        this.tasksThatHaveBeenScheduled = [];
     }
 
     public async executeScheduledTasks(time: number, gameState: Game) {
@@ -168,7 +170,17 @@ class Scheduler {
         }
     }
 
+    public scheduleTaskOnce(millisecondsInFuture: number, cb: (game: Game) => void) {
+        if (this.tasksThatHaveBeenScheduled.includes(cb.toString())) {
+            return;
+        }
+
+        this.scheduleTask(millisecondsInFuture, cb);
+    }
+
     public scheduleTask(millisecondsInFuture: number, cb: (game: Game) => void) {
+        this.tasksThatHaveBeenScheduled.push(cb.toString());
+
         this.schedule.push({
             time: millisecondsInFuture,
             callback: cb

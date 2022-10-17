@@ -9,15 +9,18 @@ import { IInitialisable } from "../behaviours/IInitilisable";
 export class Character extends PhysicsObject implements ITickable, IDrawable, IInitialisable {
 
     protected sprite: Sprite;
+    protected deadSprite: Sprite;
 
-    constructor(x: number, y: number, width: number, height: number, sprite: Sprite) {
+    constructor(x: number, y: number, width: number, height: number, sprite: Sprite, deadSprite: Sprite = null) {
         super(x, y, width, height);
         this.addBehaviour(Killable.name, new Killable(this));
         this.sprite = sprite;
+        this.deadSprite = deadSprite;
     }
 
     public async init() {
         await this.sprite.init();
+        await this.deadSprite?.init();
     }
 
     public async onTick(gameState: Game) {
@@ -31,9 +34,11 @@ export class Character extends PhysicsObject implements ITickable, IDrawable, II
             return;
         }
         
-        if (!this.isAlive) { 
+        if (!this.isAlive && this.deadSprite === null) { 
             return; 
         }
+
+        const sprite = this.isAlive ? this.sprite : this.deadSprite;
 
         let frameId: ValidFrameId;
         if (this.isJumping || this.isFalling) {
@@ -44,7 +49,7 @@ export class Character extends PhysicsObject implements ITickable, IDrawable, II
             frameId = "stopped";
         }
 
-        this.sprite.draw(playfield, this, frameId, configuration.debug);
+        sprite.draw(playfield, this, frameId, configuration.debug);
     }
 
     public get isAlive() {
