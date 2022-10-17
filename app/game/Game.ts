@@ -24,9 +24,10 @@ export class Game {
     private saves: SaveFile[];
     private ghosts: Ghost[];
 
-    private playerName: string;
+    public playerName: string;
 
     private gameStartCallback: () => void;
+    private gameTickCallback: (game: Game) => void;
     private gameEndCallback: ((reason: string, data: SaveFile) => void);
     
     private schedule: Scheduler;
@@ -45,6 +46,7 @@ export class Game {
         this.schedule = new Scheduler();
 
         this.gameStartCallback = () => {};
+        this.gameTickCallback = (_) => {};
         this.gameEndCallback = (_, __) => {};
         this.controls.connect(this);
     }
@@ -103,11 +105,19 @@ export class Game {
 
     public onGameStart(cb: () => void) {
         this.gameStartCallback = cb;
-    } 
+    }
+
+    public onGameTick(cb: (game: Game) => void) {
+        this.gameTickCallback = cb;
+    }
 
     public onGameEnd(cb: (reason: string, data: SaveFile) => void) {
         this.gameEndCallback = cb;
     } 
+
+    public get elapsed(): number { 
+        return Date.now() - this.startedAt.getTime();
+    }
 
     public async loop() {
         if (this.finished) {
@@ -118,9 +128,7 @@ export class Game {
             this.schedule.scheduleTaskOnce(3000, (state: Game) => state.stop({ reason: "dead" }));
         }
 
-        const elapsed = Date.now() - this.startedAt.getTime();
-
-        await this.schedule.executeScheduledTasks(elapsed, this);
+        await this.schedule.executeScheduledTasks(this.elapsed, this);
 
         await this.playfield.tick(this);
         await this.player.tick(this);
@@ -144,6 +152,8 @@ export class Game {
                 console.error("Failed to draw sprite", e);
             }
         }
+
+        this.gameTickCallback(this);
 
         this.timer = window.setTimeout(async () => {
             await this.loop();

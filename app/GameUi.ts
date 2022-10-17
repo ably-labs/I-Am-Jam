@@ -1,9 +1,11 @@
+import Ably from "ably/promises";
 import { SaveFile } from "./game/SaveFile";
 import { AblyGhostRepository } from "./game/ghosts/AblyGhostRepository";
 import { Game } from "./game/Game";
 import {GameConfiguration} from "./game/GameConfiguration";
 import { AblyHighScoreRepository } from "./game/highscores/AblyHighScoreRepository";
 import { Scoreboard } from "./game/highscores/Scoreboard";
+import { AblySpectatorConnector } from "./game/spectating/AblySpectatorConnector";
 
 const gameUi = document.getElementById("game") as HTMLDivElement;
 const debugCheckbox = document.getElementById("debug") as HTMLInputElement;
@@ -23,8 +25,11 @@ type onGameEndCallback = (scoreboard: Scoreboard) => void;
 export async function createGameUi(onGameStart: onGamestartCallback, onGameEnd: onGameEndCallback) {
     const game = new Game(configuration);
 
-    const scoresRepo = new AblyHighScoreRepository();
-    const ghostRepo = new AblyGhostRepository().onGhostAdded((ghost: SaveFile) => {
+    const ably = new Ably.Realtime({ authUrl: "/api/ably-token-request" });
+
+    const spectatorConnector = new AblySpectatorConnector(ably);
+    const scoresRepo = new AblyHighScoreRepository(ably);
+    const ghostRepo = new AblyGhostRepository(ably).onGhostAdded((ghost: SaveFile) => {
         game.addGhost(ghost);
     });
 
@@ -34,6 +39,10 @@ export async function createGameUi(onGameStart: onGamestartCallback, onGameEnd: 
 
     game.onGameStart(() => {        
         onGameStart();
+    });
+
+    game.onGameTick((game: Game) => {
+        spectatorConnector.publish(game);
     });
 
     game.onGameEnd(async (reason: string, data: SaveFile) => {

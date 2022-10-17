@@ -7,10 +7,10 @@ export class AblyGhostRepository implements IGhostRepository {
     private channel: any;
     private callback: ((ghost: SaveFile) => void);
 
-    constructor() {
+    constructor(ably: Ably.Realtime = null) {
+        ably = ably || new Ably.Realtime({ authUrl: "/api/ably-token-request" });
         this.ghosts = [];
 
-        const ably = new Ably.Realtime({ authUrl: "/api/ably-token-request" });
         this.channel = ably.channels.get("[?rewind=10]ghosts");
         
         this.channel.subscribe("ghost", (message: any) => {

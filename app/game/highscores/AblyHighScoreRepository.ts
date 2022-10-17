@@ -6,8 +6,8 @@ import { Types } from "ably";
 export class AblyHighScoreRepository implements IHighScoreRepository {
     private channel: Types.RealtimeChannelPromise;
 
-    constructor() {
-        const ably = new Ably.Realtime({ authUrl: "/api/ably-token-request" });
+    constructor(ably: Ably.Realtime = null) {
+        ably = ably || new Ably.Realtime({ authUrl: "/api/ably-token-request" });
         this.channel = ably.channels.get("high-scores");
     }
 
