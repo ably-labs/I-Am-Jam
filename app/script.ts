@@ -39,8 +39,8 @@ function onGameEnd(scoreboard: Scoreboard) {
 
     for (const score of scoreboard.scores) {
         const clone = tempate.content.cloneNode(true) as HTMLDivElement;
-        clone.querySelector(".name").textContent = score.name;
-        clone.querySelector(".score").textContent = score.score.toString();
+        clone.querySelector(".name").innerHTML = score.name;
+        clone.querySelector(".time").innerHTML = score.score.toString();
         scoreboardContainer.appendChild(clone);
     }
 }
