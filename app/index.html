@@ -40,12 +40,13 @@
   <div id="game">
     <div class="loading"></div>
     <div id="container" class="container"></div>
-    <div id="stats"></div>
-    <label class="debug">
-      <span class="debug-text">Debug:</span>
-      <input type="checkbox" class="checkbox" id="debug" name="debug">
-      <span class="slider"></span>
-    </label>
+    <div class="debug-container">
+      <label class="debug">
+        <span class="debug-text">Debug:</span>
+        <input type="checkbox" class="checkbox" id="debug" name="debug">
+        <span class="slider"></span>
+      </label>
+    </div>
     <div class="intro">
       <p>You are fruit, you want to become Jam. Make your way through the kitchen and into the jam pan to win.<br><br>
         WSAD to walk. Hold shift to run. SPACE to jump.</p>
@@ -54,7 +55,8 @@
   </div>
 
   <div id="scores">
-    <h2>High Scores</h2>
+    <h2>Game Over</h2>
+    <h3>High Scores</h3>
     <div id="scores-list"></div>
   </div>
 
