@@ -55,6 +55,12 @@ ul {
   justify-content: center;
 }
 
+.debug-container {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+}
+
 .debug {
   position: relative;
   display: flex;
@@ -117,15 +123,15 @@ ul {
 }
 
 .intro {
-  margin: 1rem;
-  margin-right: 200px;
-  display: grid;
-  grid-template-columns: minmax(250px, 1fr) 1fr;
+  display: flex;
+  margin: 1rem 0;
+  font-size: 1.2em;
+  line-height: 1.4rem;
 }
 
 .controls {
   width: 100%;
-  max-width: 300px;
+  max-width: 400px;
   margin-left: 2rem;
 }
 
@@ -142,7 +148,7 @@ ul {
   height: 40vw;
   background: url(./public/spread.gif) no-repeat center;
   background-size: 100%;
-  z-index: 1;
+  z-index: 5;
   transform: translate(-50%, 0%);
 }
 
@@ -159,33 +165,48 @@ ul {
   z-index: 2;
 }
 
-.loading {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
+#game {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.gameactive .loading {
+  display: none;
+}
+
+h2 {
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+h3 {
+  text-align: center;
+  font-size: 2rem;
+}
+
+canvas {
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0px 0px 20px 4px var(--dark);
+  background-color: #ffe6a4;
+}
+
+#scores {
+  display: none;
   position: absolute;
-  top: 200px;
+  top: 5rem;
   left: 50%;
-  width: 40vw;
-  max-width: 250px;
-  max-height: 250px;
-  height: 40vw;
-  background: url(./public/spread.gif) no-repeat center;
-  background-size: 100%;
-  z-index: 1;
-  transform: translate(-50%, 0%);
+  transform: translatex(-50%);
+  z-index: 5;
+  background-color: black;
+  width: 50%;
+  height: 550px;
 }
 
-.loading::after {
-  content: "loading...";
-  font-size: 3vw;
-  color: white;
-  transform: translateY(3vw);
-}
-
-.container {
-  position: relative;
-  z-index: 2;
+.gameover #scores {
+  display: block;
 }
 
 @media (min-width: 900px) {
@@ -196,24 +217,25 @@ ul {
     justify-content: space-between;
     width: auto;
     max-width: 1000px;
-    margin: 0 auto 2rem;
+    margin: 0 auto 0rem;
   }
 
   h1 {
     margin: 0;
     padding: 2rem 0 1.6rem;
-    padding-left: 4.5rem;
-    font-size: 2.6em;
+    padding-left: 4rem;
+    font-size: 3rem;
     letter-spacing: 2px;
     color: white;
-    background: url(android-chrome-512x512.png) no-repeat left center;
-    background-size: 1.2em;
+    background: url(android-chrome-512x512.png) no-repeat -7px 20px;
+    background-size: 56px;
   }
 
   .ably {
     display: block;
     width: 120px;
     height: 3em;
+    margin: 0;
     color: transparent;
     background: url(./public/ably.png) no-repeat center;
     background-size: 120px;
@@ -231,6 +253,10 @@ ul {
     left: 0;
     width: 100%;
     height: 100%;
+  }
+
+  #game {
+   height: calc(100vh - 6rem);
   }
 }
 
