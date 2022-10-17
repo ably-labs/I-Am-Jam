@@ -28,6 +28,8 @@ export class Game {
 
     private gameStartCallback: () => void;
     private gameEndCallback: ((reason: string, data: SaveFile) => void);
+    
+    private schedule: Scheduler;
 
     constructor(config: GameConfiguration) {
         this.configuration = config;
@@ -40,6 +42,7 @@ export class Game {
         this.player = null;
         this.saves = [];
         this.ghosts = [];
+        this.schedule = new Scheduler();
 
         this.gameStartCallback = () => {};
         this.gameEndCallback = (_, __) => {};
@@ -67,6 +70,8 @@ export class Game {
         this.gameStartCallback();
 
         this.startedAt = new Date();
+        this.schedule = new Scheduler();
+
         this.ghosts = this.saves.map(x => new Ghost(x));
         this.player = new Player();
         
@@ -110,8 +115,12 @@ export class Game {
         }
 
         if (!this.player.isAlive) {
-            this.stop({ reason: "dead" });
+            this.schedule.scheduleTask(3000, (state: Game) => state.stop({ reason: "dead" }));
         }
+
+        const elapsed = Date.now() - this.startedAt.getTime();
+
+        await this.schedule.executeScheduledTasks(elapsed, this);
 
         await this.playfield.tick(this);
         await this.player.tick(this);
@@ -140,4 +149,34 @@ export class Game {
             await this.loop();
         }, 1000 / 60);
     }
+
+}
+
+class Scheduler {    
+    private schedule: ScheduledTask[];
+
+    constructor() {
+        this.schedule = [];
+    }
+
+    public async executeScheduledTasks(time: number, gameState: Game) {
+        const tasks = this.schedule.filter(x => x.time <= time);
+        this.schedule = this.schedule.filter(x => x.time > time);
+
+        for (const task of tasks) {
+            await task.callback(gameState);
+        }
+    }
+
+    public scheduleTask(millisecondsInFuture: number, cb: (game: Game) => void) {
+        this.schedule.push({
+            time: millisecondsInFuture,
+            callback: cb
+        });
+    }
+}
+
+interface ScheduledTask {
+    time: number;
+    callback: (game: Game) => void;
 }

@@ -24,7 +24,6 @@ export class Player extends Character {
         }
 
         if (!gameState.player.isAlive) {
-            gameState.stop({ reason: "dead" });
             return;
         }
 
@@ -52,11 +51,6 @@ export class Player extends Character {
 
         if (game.controls.down) {
             this.velocityY += -5;
-        }
-
-        if (game.controls.start && this.isAlive) {
-            // pause
-            console.log("pause");
         }
 
         if (game.controls.jump && this.standingOnAPlatform(game)) {
