@@ -170,7 +170,6 @@ export class Game {
 
             const framePace = 16; // ms
             const elapsed = Math.floor(timestamp - this.timerLast);
-            console.log(elapsed);
 
             if (elapsed >= framePace) {
                 await this.loop()
