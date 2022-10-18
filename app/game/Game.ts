@@ -19,6 +19,7 @@ export class Game {
 
     private timer: any;
     private timerStart: number;
+    private timerLast: number;
 
     private startedAt: Date;
     private endedAt: Date;
@@ -69,6 +70,7 @@ export class Game {
             this.finished = false;
             this.timer = undefined;
             this.timerStart = undefined;
+            this.timerLast = undefined;
         }
 
         this.startedAt = new Date();
@@ -167,13 +169,16 @@ export class Game {
             }
 
             const framePace = 16; // ms
-            const elapsed = timestamp - this.timerStart;
+            const elapsed = Math.floor(timestamp - this.timerLast);
+            console.log(elapsed);
 
             if (elapsed >= framePace) {
                 await this.loop()
             } else {
                 window.requestAnimationFrame(this.scheduleNextDrawCall.bind(this));
             }
+
+            this.timerLast = timestamp;
         });
     }
 
