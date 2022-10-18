@@ -127,7 +127,7 @@ export class Game {
         }
 
         if (!this.player.isAlive) {
-            this.schedule.scheduleTaskOnce(3000, (state: Game) => state.stop({ reason: "dead" }));
+            this.schedule.scheduleTaskOnce(1500, (state: Game) => state.stop({ reason: "dead" }));
         }
 
         await this.schedule.executeScheduledTasks(this.elapsed, this);
