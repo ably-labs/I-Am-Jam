@@ -8,7 +8,7 @@ export class AblyHighScoreRepository implements IHighScoreRepository {
 
     constructor(ably: Ably.Realtime = null) {
         ably = ably || new Ably.Realtime({ authUrl: "/api/ably-token-request" });
-        this.channel = ably.channels.get("high-scores");
+        this.channel = ably.channels.get("[?rewind=1]high-scores");
     }
 
     public async getScoreboard() {
@@ -16,6 +16,12 @@ export class AblyHighScoreRepository implements IHighScoreRepository {
         const historyPage = history?.items && history.items?.length > 0 ? history.items[0] : null;
         const previousGlobalScores = historyPage?.data || [];
         return new Scoreboard(previousGlobalScores);
+    }
+
+    public async subscribe(callback: (scoreboard: Scoreboard) => void) {
+        this.channel.subscribe("update", (message: Types.Message) => {
+            callback(new Scoreboard(message.data));
+        });
     }
 
     public async updateGlobalScoreboard(name: string, score: number): Promise<Scoreboard> {

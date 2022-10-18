@@ -54,7 +54,7 @@ export async function createGameUi(onGameStart: onGamestartCallback, onGameEnd: 
             ? await scoresRepo.updateGlobalScoreboard(data.playerName, data.playtime) 
             : await scoresRepo.getScoreboard();
 
-        onGameEnd(scores);        
+        onGameEnd(scores);
     });
 
     debugCheckbox.addEventListener("change", (value: any) => {
