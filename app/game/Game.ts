@@ -172,7 +172,7 @@ export class Game {
             if (elapsed >= framePace) {
                 await this.loop()
             } else {
-                window.setTimeout(async () => await this.loop(), framePace - elapsed);
+                window.setTimeout(async () => await this.loop());
             }
         });
     }
