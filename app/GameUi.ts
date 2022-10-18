@@ -54,7 +54,9 @@ export async function createGameUi(onGameStart: onGamestartCallback, onGameEnd: 
             ? await scoresRepo.updateGlobalScoreboard(data.playerName, data.playtime) 
             : await scoresRepo.getScoreboard();
 
-        onGameEnd(scores);
+        if (game.finished) {
+            onGameEnd(scores);
+        }
     });
 
     debugCheckbox.addEventListener("change", (value: any) => {
@@ -67,7 +69,7 @@ export async function createGameUi(onGameStart: onGamestartCallback, onGameEnd: 
         gameUi.style.display = "block";
         game.setPlayerName(playerName);
         game.start();
-        
+
         return game;
     }
 
