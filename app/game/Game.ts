@@ -18,6 +18,7 @@ export class Game {
     public configuration: GameConfiguration;
 
     private timer: any;
+    private timerStart: number;
 
     private startedAt: Date;
     private endedAt: Date;
@@ -66,7 +67,8 @@ export class Game {
     public async start() {
         if (this.timer) {
             this.finished = false;
-            window.clearTimeout(this.timer);
+            this.timer = undefined;
+            this.timerStart = undefined;
         }
 
         this.startedAt = new Date();
@@ -154,10 +156,25 @@ export class Game {
         }
 
         this.gameTickCallback(this);
+        
+        this.scheduleNextDrawCall();
+    }
 
-        this.timer = window.setTimeout(async () => {
-            await this.loop();
-        }, 1000 / 60);
+    private scheduleNextDrawCall() {
+        this.timer = window.requestAnimationFrame(async (timestamp) => {
+            if (this.timerStart === undefined) {
+                this.timerStart = timestamp;
+            }
+
+            const framePace = 16; // ms
+            const elapsed = timestamp - this.timerStart;
+
+            if (elapsed >= framePace) {
+                await this.loop()
+            } else {
+                window.setTimeout(async () => await this.loop(), framePace - elapsed);
+            }
+        });
     }
 
 }
