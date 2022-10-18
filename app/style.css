@@ -231,7 +231,7 @@ canvas {
   color: var(--dark)
 }
 
-@media (max-width: 899px) {
+@media (max-width: 999px) {
   #game-canvas {
     position: absolute;
     top: 50%;
@@ -256,7 +256,7 @@ canvas {
 
 }
 
-@media (min-width: 900px) {
+@media (min-width: 1000px) {
   header {
     position: relative;
     display: flex;
