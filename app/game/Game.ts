@@ -18,8 +18,8 @@ export class Game {
     public configuration: GameConfiguration;
 
     private timer: any;
-    private timerStart: number;
-    private timerLast: number;
+    //private timerStart: number;
+    //private timerLast: number;
 
     private startedAt: Date;
     private endedAt: Date;
@@ -67,10 +67,11 @@ export class Game {
 
     public async start() {
         if (this.timer) {
-            this.finished = false;
-            this.timer = undefined;
+            this.finished = false;            
+            window.clearTimeout(this.timer);
+            /*this.timer = undefined;
             this.timerStart = undefined;
-            this.timerLast = undefined;
+            this.timerLast = undefined;*/
         }
 
         this.startedAt = new Date();
@@ -163,7 +164,11 @@ export class Game {
     }
 
     private scheduleNextDrawCall() {
-        this.timer = window.requestAnimationFrame(async (timestamp) => {
+        this.timer = window.setTimeout(async () => {
+            await this.loop();
+        }, 1000 / 60);
+
+        /*this.timer = window.requestAnimationFrame(async (timestamp) => {
             if (this.timerStart === undefined) {
                 this.timerStart = timestamp;
             }
@@ -178,7 +183,7 @@ export class Game {
             }
 
             this.timerLast = timestamp;
-        });
+        });*/
     }
 
 }
