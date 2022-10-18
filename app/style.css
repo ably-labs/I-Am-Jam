@@ -31,7 +31,7 @@ h1 {
   font-size: 20px;
   letter-spacing: 2px;
   background-size: 1.2em;
-  color: var(--grape);
+  color: var(--dark);
 }
 
 ul {
@@ -42,12 +42,12 @@ ul {
 
 .ably {
   display: block;
-  width: 110px;
+  width: 80px;
   height: 40px;
   color: transparent;
-  background: url(./public/ably.png) no-repeat center;
-  background-size: 110px;
-  margin: 10px 1rem;
+  background: url(./public/AblyLogoColour.png) no-repeat center;
+  background-size: 80px;
+  margin: 5px 1rem;
 }
 
 .container {
@@ -123,6 +123,7 @@ ul {
 }
 
 .intro {
+  position: absolute;
   display: flex;
   margin: 1rem 0;
   font-size: 1.2em;
@@ -140,16 +141,16 @@ ul {
   align-items: flex-end;
   justify-content: center;
   position: absolute;
-  top: 200px;
+  top: 50%;
   left: 50%;
-  width: 40vw;
+  width: 90vh;
   max-width: 250px;
   max-height: 250px;
-  height: 40vw;
+  height: 90vw;
   background: url(./public/spread.gif) no-repeat center;
   background-size: 100%;
   z-index: 5;
-  transform: translate(-50%, 0%);
+  transform: translate(-50%, -50%);
 }
 
 .loading::after {
@@ -174,6 +175,10 @@ ul {
   display: none;
 }
 
+.gameover .loading {
+  display: none;
+}
+
 h2 {
   text-align: center;
   text-transform: uppercase;
@@ -187,26 +192,36 @@ h3 {
 }
 
 canvas {
-  border-radius: 5px;
-  overflow: hidden;
-  box-shadow: 0px 0px 20px 4px var(--dark);
   background-color: #ffe6a4;
 }
 
 #scores {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   display: none;
   position: absolute;
-  top: 5rem;
+  top: 0;
   left: 50%;
   transform: translatex(-50%);
   z-index: 5;
-  background-color: black;
-  width: 50%;
-  height: 550px;
+  background: url(public/pixelsplat.png) center center no-repeat;
+  background-size: contain;
+  padding: 1vw;
+  width:60vw;
+  height: 90vh;
 }
 
 .gameover #scores {
-  display: block;
+  display: flex;
+}
+
+@media (max-width: 899px) {
+  #game-canvas {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
 }
 
 @media (min-width: 900px) {
@@ -258,9 +273,40 @@ canvas {
   #game {
    height: calc(100vh - 6rem);
   }
+
+  canvas {
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0px 0px 20px 4px var(--dark);
+  }
+
+  .intro {
+    position: static;
+    display: flex;
+    margin: 1rem 0;
+    font-size: 1.2em;
+    line-height: 1.4rem;
+  }
+
+  .loading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    position: absolute;
+    top: 200px;
+    left: 50%;
+    width: 40vw;
+    max-width: 250px;
+    max-height: 250px;
+    height: 40vw;
+    background: url(./public/spread.gif) no-repeat center;
+    background-size: 100%;
+    z-index: 5;
+    transform: translate(-50%, 0%);
+  }
 }
 
 .gameover #game {
-  filter: blur(2px);
+  filter: grayscale(100%);
 }
 

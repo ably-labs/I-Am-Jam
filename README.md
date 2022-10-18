@@ -4,15 +4,13 @@ The JamStack Platformer Game
 
 ## TODO
 
-* Game start screen
-* Character Select
+* Remake character design
+* Reexport controls graphic
 * Ghost design
 * Game over screen
 * Game won screen
 * Scoreboard
-* Fix plant shelf on background
 * Mobile sizing
-* Readme writeup
 * Add player name to player
 * Realtime Overview view
 
