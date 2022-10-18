@@ -7,6 +7,7 @@ The JamStack Platformer Game
 * Remake character design
 * Reexport controls graphic
 * Ghost design
+* Splat graphic for mobile
 * Game over screen
 * Game won screen
 * Scoreboard
