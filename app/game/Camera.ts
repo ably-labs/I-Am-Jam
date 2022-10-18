@@ -23,8 +23,8 @@ export class Camera {
         this._xPosition = 0;
     }
 
-    public isOnScreen(entity: EntityBase) {
-        return entity.x < this._xPosition + this.playfield.width;
+    public isInRange(entity: EntityBase) {
+        return entity.x > this._xPosition - (this.playfield.width * 2) && entity.x < this._xPosition + (this.playfield.width * 2);
     }
 
     public toCanvasPosition(x: number, y: number, entityOrHeight?: EntityBase | number) {
