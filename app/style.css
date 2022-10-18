@@ -23,7 +23,7 @@ header {
   width: 100%;
   display: flex;
   justify-content: space-between;
-  z-index: 3;
+  z-index: 6;
 }
 
 h1 {
@@ -182,13 +182,15 @@ ul {
 h2 {
   text-align: center;
   text-transform: uppercase;
-  font-size: 4rem;
-  margin-bottom: 1rem;
+  font-size: 2rem;
+  margin: 0 0 1rem;
 }
 
 h3 {
+  font-weight: normal;
   text-align: center;
-  font-size: 2rem;
+  font-size: 1.4em;
+  margin: 0 0 1rem;
 }
 
 canvas {
@@ -196,35 +198,65 @@ canvas {
 }
 
 #scores {
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   display: none;
   position: absolute;
   top: 0;
   left: 50%;
   transform: translatex(-50%);
   z-index: 5;
-  background: url(public/pixelsplat.png) center center no-repeat;
-  background-size: contain;
-  padding: 1vw;
-  width:60vw;
-  height: 90vh;
+  background: url(public/pixelsplat.png) center 70% no-repeat;
+  background-size: 80vw;
+  width: 100vw;
+  height: 100vh;
 }
 
 .gameover #scores {
-  display: flex;
+  display: block;
 }
 
-@media (max-width: 899px) {
+.scores-text:after {
+  content: "Tap screen to play again!"
+}
+
+.scores-text {
+  text-align: center;
+  margin-top: 2rem
+}
+
+.entry {
+  color: var(--grape);
+}
+
+.entry:nth-child(odd) {
+  color: var(--dark)
+}
+
+@media (max-width: 999px) {
   #game-canvas {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
   }
+
+  #scores-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+    max-height: calc(100vh - 12rem);
+    overflow: auto;
+  }
+
+  .entry {
+    display: contents;
+  }
+
+  .name {
+    text-align: right;
+  }
+
 }
 
-@media (min-width: 900px) {
+@media (min-width: 1000px) {
   header {
     position: relative;
     display: flex;
@@ -244,6 +276,16 @@ canvas {
     color: white;
     background: url(android-chrome-512x512.png) no-repeat -7px 20px;
     background-size: 56px;
+  }
+
+
+  h2 {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+  }
+
+  h3 {
+    font-size: 2rem;
   }
 
   .ably {
@@ -303,6 +345,41 @@ canvas {
     background-size: 100%;
     z-index: 5;
     transform: translate(-50%, 0%);
+  }
+
+  #scores {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translatex(-50%);
+    z-index: 5;
+    background: url(public/pixelsplat.png) center center no-repeat;
+    background-size: contain;
+    padding: 1vw;
+    width:60vw;
+    height: 90vh;
+  }
+
+  .scores-text:after {
+    content: "Press any key to play again!"
+  }
+
+  .gameover #scores {
+    display: flex;
+  }
+
+  .entry {
+    margin-bottom: 10px;
+  }
+
+  #scores-list {
+    max-height: 16rem;
+    overflow: auto;
+    padding-right: 1rem;
   }
 }
 

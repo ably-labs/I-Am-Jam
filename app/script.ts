@@ -42,7 +42,7 @@ function onGameEnd(scoreboard: Scoreboard) {
     for (const score of scoreboard.scores) {
         const clone = tempate.content.cloneNode(true) as HTMLDivElement;
         clone.querySelector(".name").innerHTML = score.name;
-        clone.querySelector(".time").innerHTML = score.score.toString();
+        clone.querySelector(".time").innerHTML = new Date(score.score).toISOString().slice(11, -1);;
         scoreboardContainer.appendChild(clone);
     }
 
