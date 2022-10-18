@@ -67,6 +67,8 @@ export async function createGameUi(onGameStart: onGamestartCallback, onGameEnd: 
         gameUi.style.display = "block";
         game.setPlayerName(playerName);
         game.start();
+        
+        return game;
     }
 
     return startGameFunction;

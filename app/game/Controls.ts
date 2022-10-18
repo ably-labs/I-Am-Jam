@@ -29,9 +29,16 @@ export class Controls {
 
     private readonly _touchControlsCenterPoint = 150;
 
-
     constructor() {
         this.eventListenerController = new AbortController();
+    }
+
+    public simulateButtonPress(key: string) {
+        this[key] = true;
+        
+        setTimeout(() => {
+            this[key] = false;
+        }, 250);
     }
 
     public buttonPress(keyInfo: any) {
@@ -154,8 +161,6 @@ export class Controls {
         setInterval(() => {
 
             // Control polling loop
-
-
             if ((this.start || this.jump) && game.finished) {
                 game.start();
             }

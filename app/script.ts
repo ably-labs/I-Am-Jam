@@ -1,7 +1,9 @@
 import {HubSpotUi} from "./HubSpotUi";
 import {createGameUi} from "./GameUi";
 import { Scoreboard } from "./game/highscores/Scoreboard";
+import { Game } from "./game/Game";
 
+let game: Game = null;
 const requireSignup = false;
 
 (async () => {
@@ -14,11 +16,11 @@ const requireSignup = false;
             // (╯°□°）╯︵ ┻━┻
             const firstName = form.data.data[1].value;
             const lastName = form.data.data[2].value;
-            startGameFunction(`${firstName} ${lastName}`);
+            game = startGameFunction(`${firstName} ${lastName}`);
         });
     } else {
         HubSpotUi.hideForm();
-        startGameFunction("Default Player");
+        game = startGameFunction("Default Player");
     }
 })();
 
@@ -43,6 +45,14 @@ function onGameEnd(scoreboard: Scoreboard) {
         clone.querySelector(".time").innerHTML = score.score.toString();
         scoreboardContainer.appendChild(clone);
     }
+
+    document.getElementById("scores").click = () => {
+        game.controls.simulateButtonPress("start");
+    };
+
+    document.getElementById("scores").ontouchend = () => {
+        game.controls.simulateButtonPress("start");
+    };
 }
 
 export { };
