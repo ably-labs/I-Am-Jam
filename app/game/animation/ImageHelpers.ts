@@ -1,5 +1,5 @@
 export class ImageHelpers {
-    public static cache = new Map<string, HTMLImageElement>();    
+    public static cache = new Map<string, HTMLImageElement>();
 
     public static async load(url: string) {
         url = url.trim();
@@ -7,14 +7,16 @@ export class ImageHelpers {
         if (ImageHelpers.cache.has(url)) {
             return ImageHelpers.cache.get(url);
         }
-            
+
         return await new Promise<HTMLImageElement>((resolve, reject) => {
             const i = new Image();
             i.onload = (loadEvent: any) => {
-                ImageHelpers.cache.set(url, loadEvent.path[0]);
+                console.log(loadEvent);
+                const loadedImg = loadEvent.path ? loadEvent.path[0] : loadEvent.target;
+                ImageHelpers.cache.set(url, loadedImg);
 
                 console.log("ImageHelpers: loaded", url);
-                resolve(loadEvent.path[0]);
+                resolve(loadedImg);
             };
 
             i.onerror = (errorEvent: any) => {
