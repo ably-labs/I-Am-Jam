@@ -20,7 +20,7 @@ const configuration: GameConfiguration = {
 };
 
 type onGamestartCallback = () => void;
-type onGameEndCallback = (scoreboard: Scoreboard) => void;
+type onGameEndCallback = (scoreboard: Scoreboard, reason: string) => void;
 
 export async function createGameUi(onGameStart: onGamestartCallback, onGameEnd: onGameEndCallback) {
     const game = new Game(configuration);
@@ -55,7 +55,7 @@ export async function createGameUi(onGameStart: onGamestartCallback, onGameEnd: 
             : await scoresRepo.getScoreboard();
 
         if (game.finished) {
-            onGameEnd(scores);
+            onGameEnd(scores, reason);
         }
     });
 

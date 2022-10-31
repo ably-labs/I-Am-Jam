@@ -30,7 +30,7 @@ function onGameStart() {
     document.body.classList.add("gameactive");
 }
 
-function onGameEnd(scoreboard: Scoreboard) {
+function onGameEnd(scoreboard: Scoreboard, reason: string) {
     document.body.classList.remove("gameactive");
     document.body.classList.add("gameover");
 
