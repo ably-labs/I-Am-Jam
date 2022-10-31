@@ -6,7 +6,13 @@
   --marmalade: #ff8b3c;
 }
 
+html {
+  height: 100%;
+}
+
 body {
+  position: fixed;
+  width: 100%;
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
   background-image: linear-gradient(135deg, #221a56 13.11%, #762d89 13.11%, #762d89 50%, #221a56 50%, #221a56 63.11%, #762d89 63.11%, #762d89 100%);
@@ -14,6 +20,7 @@ body {
   font-family: 'Grandstander', cursive;
   color: white;
   overflow: hidden;
+  height: 100%;
 }
 
 header {
@@ -199,28 +206,32 @@ canvas {
 
 #scores {
   display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   position: absolute;
   top: 0;
   left: 50%;
-  transform: translatex(-50%);
-  z-index: 5;
-  background: url(public/pixelsplat.png) center 70% no-repeat;
-  background-size: 80vw;
   width: 100vw;
   height: 100vh;
+  background: url(public/pixelsplat.png) center 70% no-repeat;
+  background-size: 100vw;
+  transform: translatex(-50%);
+  z-index: 5;
 }
 
 .gameover #scores {
-  display: block;
+  display: flex;
 }
 
 .scores-text:after {
-  content: "Tap screen to play again!"
+  content: "Tap screen to play again! ▶️"
 }
 
 .scores-text {
   text-align: center;
-  margin-top: 2rem
+  margin: 1rem 0 0;
+
 }
 
 .entry {
@@ -387,3 +398,27 @@ canvas {
   filter: grayscale(100%);
 }
 
+@media (max-height: 552px ) {
+  #game {
+    transform: translateY(-10%);
+    max-width: 100%;
+  }
+
+  .container {
+    min-height: 100%;
+  }
+
+  .intro {
+    display: none;
+  }
+
+  h1 {
+    margin: .5rem;
+    font-size: 30px;
+  }
+
+  h2 {
+    margin-top: -3rem;
+  }
+
+}
