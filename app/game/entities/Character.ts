@@ -29,27 +29,30 @@ export class Character extends PhysicsObject implements ITickable, IDrawable, II
         this.sprite.setDirection(this.facing);
     }
 
-    public draw({ playfield, configuration }: Game) {
+    public draw(gameState: Game) {
+        var { playfield, configuration } = gameState;
+
         if (!this.sprite) {
             return;
         }
-        
-        if (!this.isAlive && this.deadSprite === null) { 
-            return; 
-        }
-
-        const sprite = this.isAlive ? this.sprite : this.deadSprite;
 
         let frameId: ValidFrameId;
         if (this.isJumping || this.isFalling) {
             frameId = 3;
         } else if (this.isMoving) {
             frameId = "auto";
+        } else if(!this.isAlive) {
+            frameId = "auto";
         } else {
             frameId = "stopped";
         }
 
-        sprite.draw(playfield, this, frameId, configuration.debug);
+        if (this.isAlive) {
+            this.sprite.draw(playfield, this, frameId, configuration.debug);   
+        } else if (this.deadSprite) {
+            this.deadSprite.tick(gameState);
+            this.deadSprite.draw(playfield, this, "auto", configuration.debug);
+        }     
     }
 
     public get isAlive() {

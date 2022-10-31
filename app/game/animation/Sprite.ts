@@ -21,11 +21,12 @@ export class Sprite implements ITickable, IInitialisable {
     private facing: Direction;
     private currentFrameId: number;
     private readonly delay: number;
+    private loop: boolean;
 
     private readonly framesFacingRight: HTMLCanvasElement[];
     private readonly framesFacingLeft: HTMLCanvasElement[];
 
-    constructor(filePattern: string, frameCount: number, delay: number = 5) {
+    constructor(filePattern: string, frameCount: number, delay: number = 5, loop = true) {
         this.framesFacingLeft = [];
         this.framesFacingRight = [];
 
@@ -34,6 +35,8 @@ export class Sprite implements ITickable, IInitialisable {
         this.currentFrameId = 0;
         this.facing = "RIGHT";
         this.delay = delay;
+
+        this.loop = loop;
     }
     
     public async init() {
@@ -56,7 +59,11 @@ export class Sprite implements ITickable, IInitialisable {
             this.currentFrameId++;
         }
 
-        this.currentFrameId = this.currentFrameId == this.frames.length ? 0 : this.currentFrameId
+        if (this.loop) {
+            this.currentFrameId = this.currentFrameId == this.frames.length ? 0 : this.currentFrameId;
+        } else {
+            this.currentFrameId = this.currentFrameId == this.frames.length ? this.frames.length -1 : this.currentFrameId;
+        }
     }
 
     public setDirection(facing: Direction) {

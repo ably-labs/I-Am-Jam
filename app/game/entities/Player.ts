@@ -7,7 +7,7 @@ export class Player extends Character {
     public saveFile: SaveFile;
 
     constructor() {
-        super(360, 300, 30, 30, new Sprite("graphics/player", 5), new Sprite("graphics/player", 5));
+        super(360, 300, 30, 30, new Sprite("graphics/player", 5), new Sprite("graphics/dead", 9, 5, false));
         this.saveFile = new SaveFile();
     }
 
@@ -20,10 +20,6 @@ export class Player extends Character {
     public async onTick(gameState: Game) {
         if (gameState.playfield.isGoal(this.center.x, this.center.y) && this.standingOnAPlatform(gameState)) {
             gameState.stop({ reason: "completed" });
-            return;
-        }
-
-        if (!gameState.player.isAlive) {
             return;
         }
 
