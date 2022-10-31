@@ -193,6 +193,14 @@ h2 {
   margin: 0 0 1rem;
 }
 
+h2:after {
+  content: "Game over";
+}
+
+.complete h2:after{
+  content: "You are Jam!"
+}
+
 h3 {
   font-weight: normal;
   text-align: center;
@@ -218,6 +226,11 @@ canvas {
   background-size: 100vw;
   transform: translatex(-50%);
   z-index: 5;
+}
+
+.complete #scores {
+  background: url(public/jamsuccess.png) top no-repeat;
+  background-size: 97vh;
 }
 
 .gameover #scores {
@@ -381,6 +394,10 @@ canvas {
 
   .scores-text:after {
     content: "Press any key to play again!"
+  }
+
+  .complete #scores {
+    background-size: 72vh;
   }
 
   .gameover #scores {

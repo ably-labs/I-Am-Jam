@@ -27,12 +27,16 @@ const requireSignup = false;
 function onGameStart() {
     console.log("start");
     document.body.classList.remove("gameover");
+    document.body.classList.remove("completed");
     document.body.classList.add("gameactive");
 }
 
 function onGameEnd(scoreboard: Scoreboard, reason: string) {
     document.body.classList.remove("gameactive");
     document.body.classList.add("gameover");
+    if (reason === "completed") {
+        document.body.classList.add(reason);
+    }
 
     const tempate = document.getElementById("score-item") as HTMLTemplateElement;
     const scoreboardContainer = document.getElementById("scores-list") as HTMLDivElement;
