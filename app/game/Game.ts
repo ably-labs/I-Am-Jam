@@ -130,10 +130,10 @@ export class Game {
         }
 
         if (!this.player.isAlive) {
-            this.schedule.scheduleTaskOnce(1500, (state: Game) => state.stop({ reason: "dead" }));
+            this.schedule.scheduleTaskOnce(1000, (state: Game) => state.stop({ reason: "dead" }));
         }
 
-        await this.schedule.executeScheduledTasks(this.elapsed, this);
+        await this.schedule.executeScheduledTasks(this);
 
         await this.playfield.tick(this);
         await this.player.tick(this);
@@ -197,7 +197,9 @@ class Scheduler {
         this.tasksThatHaveBeenScheduled = [];
     }
 
-    public async executeScheduledTasks(time: number, gameState: Game) {
+    public async executeScheduledTasks(gameState: Game) {
+        const time = Date.now();
+
         const tasks = this.schedule.filter(x => x.time <= time);
         this.schedule = this.schedule.filter(x => x.time > time);
 
@@ -215,10 +217,12 @@ class Scheduler {
     }
 
     public scheduleTask(millisecondsInFuture: number, cb: (game: Game) => void) {
+        const scheduledTime = Date.now() + millisecondsInFuture;
+
         this.tasksThatHaveBeenScheduled.push(cb.toString());
 
         this.schedule.push({
-            time: millisecondsInFuture,
+            time: scheduledTime,
             callback: cb
         });
     }

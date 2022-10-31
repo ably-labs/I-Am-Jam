@@ -16,12 +16,12 @@ export class Killable implements IBehaviour {
 
     public async act(gameState: Game) {
         if (!this.isAlive) {
-            return false;
+            return false; // short circuit the rest of the behaviours and end ticking this entity
         }
 
         if (gameState.playfield.isPit(this.entity.leadingEdge, this.entity.bottom)) {
             this.kill(this);
-            return false; // short circuit the rest of the behaviours
+            return false;
         }
     }
 

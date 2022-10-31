@@ -27,7 +27,7 @@ export class Enemy extends Character {
         await super.onTick(gameState);
         this.coolOffTickCounter > 0 && this.coolOffTickCounter--;
 
-        if (this.collidesWith(gameState.player)) {
+        if (this.collidesWith(gameState.player) && gameState.player.isAlive) {
             gameState.player.hasBehaviour(Killable.name, (killable: Killable) => {
                 killable.kill(this);
             });
