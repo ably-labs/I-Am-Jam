@@ -74,7 +74,7 @@ export class Playfield implements ITickable, IDrawable {
         hiddenCanvas.setAttribute("width", image.width + "px");
         hiddenCanvas.setAttribute("height", image.height + "px");
 
-        this.collisionMap = hiddenCanvas.getContext("2d");
+        this.collisionMap = hiddenCanvas.getContext("2d", { willReadFrequently: true });
         this.collisionMap.drawImage(image, 0, 0);
     }
 
