@@ -31,6 +31,7 @@ export class Playfield implements ITickable, IDrawable {
         this.parent = gameState;
         this.width = width;
         this.height = height;
+        this.zIndex = -100;
         
         this.canvas = document.createElement("CANVAS") as HTMLCanvasElement;
         this.canvas.setAttribute("id", "game-canvas");
