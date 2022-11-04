@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+import { resolve } from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -14,7 +15,13 @@ export default defineConfig({
   build: {
     outDir: "../dist",
     sourcemap: true,
-    emptyOutDir: true
+    emptyOutDir: true,
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, 'app/index.html'),
+        nested: resolve(__dirname, 'app/spectate.html')
+      }
+    }
   },
   plugins: []
 })
