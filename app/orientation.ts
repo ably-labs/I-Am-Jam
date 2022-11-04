@@ -1,16 +1,13 @@
 validateOrientation();
 
-document.addEventListener("orientationchange", function(event) {
+screen.orientation.addEventListener("change", function(event) {
     console.log("Orientation changed");
     validateOrientation();
 });
 
 
 export function validateOrientation() {
-    console.log('hellooo');
     const orientationWarning = document.getElementById("orientation-warning") as HTMLDivElement;
-    console.log("width", window.innerWidth);
-    console.log("height", window.innerHeight);
 
     switch (screen.orientation.type) {
         case "landscape-primary":
