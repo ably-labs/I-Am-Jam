@@ -38,7 +38,7 @@ h1 {
   font-size: 20px;
   letter-spacing: 2px;
   background-size: 1.2em;
-  color: var(--dark);
+  color: white;
 }
 
 ul {
@@ -255,6 +255,15 @@ canvas {
   color: var(--dark)
 }
 
+#signup-form {
+  width: calc(100% - 2rem);
+  max-width: 700px;
+  margin: 0 auto;
+  overflow-y: auto;
+  height: calc(100vh - 5rem);
+  margin-top: 3rem;
+}
+
 @media (max-width: 999px) {
   #game-canvas {
     position: absolute;
@@ -425,6 +434,9 @@ canvas {
     max-width: 100%;
   }
 
+  .gamestart h1 {
+    color: var(--dark);
+  }
   .container {
     min-height: 100%;
   }
