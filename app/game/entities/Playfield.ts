@@ -115,7 +115,6 @@ export class Playfield implements ITickable, IDrawable {
 
     public writeText(text: string) {
         this.ctx.font = "30px Arial";
-
     }
 
     public draw(gameState: Game) {
@@ -126,5 +125,12 @@ export class Playfield implements ITickable, IDrawable {
         const visual = this.parent.configuration.debug ? this.collisionMapImage : this.map;
 
         this.ctx.drawImage(visual, drawAtX, 0);
+    }
+
+    public resize(width: number, height: number) {
+        this.width = width;
+        this.height = height;
+        this.canvas.setAttribute("width", width + "px");
+        this.canvas.setAttribute("height", height + "px");
     }
 }
