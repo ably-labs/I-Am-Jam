@@ -264,6 +264,28 @@ canvas {
   margin-top: 3rem;
 }
 
+#guys {
+  margin-top: 1rem;
+}
+
+.guy {
+  position: relative;
+  border-radius: 50%;
+  border: 1px solid black;
+}
+
+.player {
+  position: absolute;
+  top: -0.4vw;
+  left: 0%;
+  transform: translateX(-50%);
+  color: var(--dark);
+  font-weight: bold;
+  display: block;
+  width: max-content;
+  text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+}
+
 @media (max-width: 999px) {
   #game-canvas {
     position: absolute;
@@ -454,4 +476,36 @@ canvas {
     margin-top: -3rem;
   }
 
+}
+
+.overview #scores {
+  display: flex;
+}
+
+#scoreboard {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+#scoreboard #scores-list {
+  height: calc(100vh - 13rem - 7vw);
+  max-height: calc(100vh - 13rem - 7vw);
+  overflow: auto;
+}
+
+#scoreboard .entry {
+  color: white;
+  font-size: 1.2rem;
+}
+
+#scoreboard .entry:nth-child(odd) {
+  color: var(--marmalade);
+}
+
+#scoreboard .time {
+  float: right;
+  margin-left: 2rem;
 }

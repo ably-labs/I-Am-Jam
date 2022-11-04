@@ -21,8 +21,8 @@ scoresRepo.subscribe(renderScoreboard);
 
 function renderPlayer(state: StateMessage) {
     const scaledX = state.x * scaleWidth;
-    const scaledY = (state.y + 10) * scaleHeight;
-    
+    const scaledY = state.y * scaleHeight;
+
     let guy = document.getElementById("id-" + state.id);
 
     if (!state.isAlive && guy) {
@@ -33,33 +33,43 @@ function renderPlayer(state: StateMessage) {
     if (!guy) {
         guy = document.createElement("div");
         guy.id = "id-" + state.id;
-        guy.style.width = "5px";
-        guy.style.height = "5px";
+        guy.style.width = "0.3vw";
+        guy.style.height = "0.3vw";
         guy.style.position = "absolute";
         guy.style.backgroundColor = "red";
+        guy.setAttribute("data-player-name", state.name);
 
+        const randomNumber = Math.floor(Math.random() * 360) + 0;  
+        const name = document.createElement('span');
+        name.innerHTML = state.name;
+        name.className = "player";
+
+        guy.style.backgroundColor = `hsl(${randomNumber}, 100%, 50% )`;
+        
         guy.classList.add("guy");
+        guy.appendChild(name);
         guys.appendChild(guy);
     }
 
     const invertedY = guys.clientHeight - scaledY;
 
     guy.style.left = scaledX + "px";
-    guy.style.top = invertedY + "px";
+    guy.style.top = `calc(${invertedY}px - 0.3vw)`;
+    
 }
 
 function renderScoreboard(scoreboard: Scoreboard) {
-    const tempate = document.getElementById("score-item") as HTMLTemplateElement;
+    const template = document.getElementById("score-item") as HTMLTemplateElement;
     const scoreboardContainer = document.getElementById("scores-list") as HTMLDivElement;
 
     scoreboardContainer.innerHTML = "";
 
     for (const score of scoreboard.scores) {
-        const clone = tempate.content.cloneNode(true) as HTMLDivElement;
+        const clone = template.content.cloneNode(true) as HTMLDivElement;
         clone.querySelector(".name").innerHTML = score.name;
-        clone.querySelector(".time").innerHTML = score.score.toString();
+        clone.querySelector(".time").innerHTML = new Date(score.score).toISOString().slice(11, -1);
         scoreboardContainer.appendChild(clone);
-    }   
+    }
 
     console.log("rendered scores");
 }

@@ -38,15 +38,15 @@ function onGameEnd(scoreboard: Scoreboard, reason: string) {
         document.body.classList.add(reason);
     }
 
-    const tempate = document.getElementById("score-item") as HTMLTemplateElement;
+    const template = document.getElementById("score-item") as HTMLTemplateElement;
     const scoreboardContainer = document.getElementById("scores-list") as HTMLDivElement;
 
     scoreboardContainer.innerHTML = "";
 
     for (const score of scoreboard.scores) {
-        const clone = tempate.content.cloneNode(true) as HTMLDivElement;
+        const clone = template.content.cloneNode(true) as HTMLDivElement;
         clone.querySelector(".name").innerHTML = score.name;
-        clone.querySelector(".time").innerHTML = new Date(score.score).toISOString().slice(11, -1);;
+        clone.querySelector(".time").innerHTML = new Date(score.score).toISOString().slice(11, -1);
         scoreboardContainer.appendChild(clone);
     }
 
