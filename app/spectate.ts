@@ -39,13 +39,13 @@ function renderPlayer(state: StateMessage) {
         guy.style.backgroundColor = "red";
         guy.setAttribute("data-player-name", state.name);
 
-        const randomNumber = Math.floor(Math.random() * 360) + 0;  
+        const randomNumber = Math.floor(Math.random() * 360) + 0;
         const name = document.createElement('span');
         name.innerHTML = state.name;
         name.className = "player";
 
         guy.style.backgroundColor = `hsl(${randomNumber}, 100%, 50% )`;
-        
+
         guy.classList.add("guy");
         guy.appendChild(name);
         guys.appendChild(guy);
@@ -55,8 +55,20 @@ function renderPlayer(state: StateMessage) {
 
     guy.style.left = scaledX + "px";
     guy.style.top = `calc(${invertedY}px - 0.3vw)`;
-    
+
+    guy.setAttribute("data-updated", new Date().getTime().toString())
 }
+
+setInterval(() => {  // purge guys from spectate page if they've not moved in 10 seconds
+    const playingGuys = document.getElementsByClassName("guy");
+    const now = new Date().getTime();
+    for (let guy of playingGuys) {
+        const lastUpdated = parseInt(guy.getAttribute('data-updated'));
+        if (now > lastUpdated + 10000) {
+            guy.remove();
+        }
+    }
+}, 5000)
 
 function renderScoreboard(scoreboard: Scoreboard) {
     const template = document.getElementById("score-item") as HTMLTemplateElement;
