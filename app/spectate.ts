@@ -13,8 +13,13 @@ const guys = document.getElementById("guys");
 
 const origialWidth = 8233;
 const originalHeight = 552;
-const scaleWidth = guys.clientWidth / origialWidth;
-const scaleHeight = guys.clientHeight / originalHeight;
+let scaleWidth = guys.clientWidth / origialWidth;
+let scaleHeight = guys.clientHeight / originalHeight;
+
+window.addEventListener("resize", () => {
+    scaleWidth = guys.clientWidth / origialWidth;
+    scaleHeight = guys.clientHeight / originalHeight;
+});
 
 connector.subscribe(renderPlayer);
 scoresRepo.subscribe(renderScoreboard);

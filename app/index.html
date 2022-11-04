@@ -36,11 +36,10 @@
   </header>
 
   <div id="signup-form"></div>
-
+  <div id="orientation-warning">
+    <p>Please rotate your device to landscape to play.</p>
+  </div>
   <div id="game">
-    <div id="orientation-warning">
-      <p>Please rotate your device to landscape to play.</p>
-    </div>
     <div class="loading"></div>
     <div id="container" class="container"></div>
     <div class="debug-container">
@@ -55,16 +54,15 @@
         WSAD to walk. Hold shift to run. SPACE to jump.</p>
       <img class="controls" src="wsad.png" alt="an illustration of the WSAD keys, space bar and shift keys">
     </div>
-    <div id="scores">
-      <h2></h2>
-      <h3>High Scores</h3>
-      <div id="scores-list"></div>
-      <p class="scores-text"></p>
-    </div>
   </div>
-
+  
+  <div id="scores">
+    <h2></h2>
+    <h3>High Scores</h3>
+    <div id="scores-list"></div>
+    <p class="scores-text"></p>
+  </div>
  
-
   <template id="score-item">
     <div class="entry">
       <span class="name">Name</span>

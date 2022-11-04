@@ -10,19 +10,42 @@ const requireSignup = true;
     const startGameFunction = await createGameUi(onGameStart, onGameEnd);
 
     if (requireSignup) {
-        HubSpotUi.createForm((form) => {
+        HubSpotUi.createForm(async (form) => {
             HubSpotUi.hideForm();
 
             // (╯°□°）╯︵ ┻━┻
             const firstName = form.data.data[1].value;
             const lastName = form.data.data[2].value;
+
+            await waitForHorizontalOrientation();
+
             game = startGameFunction(`${firstName} ${lastName}`);
         });
     } else {
         HubSpotUi.hideForm();
+        await waitForHorizontalOrientation();
         game = startGameFunction("Default Player");
     }
 })();
+
+function waitForHorizontalOrientation(): Promise<boolean> {
+    if (window.innerHeight < window.innerWidth || screen.orientation.type === "landscape-primary") {
+        return Promise.resolve(true);
+    }
+
+    var promise = new Promise<boolean>((resolve) => {
+        const orientationHandler = () => {
+            if (screen.orientation.type == "landscape-primary") {
+                window.removeEventListener("resize", orientationHandler);
+                resolve(true);
+            }
+        };
+
+        screen.orientation.addEventListener("change", orientationHandler);
+    });
+
+    return promise;
+}
 
 function onGameStart() {
     console.log("start");
