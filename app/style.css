@@ -293,6 +293,17 @@ canvas {
   text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
 }
 
+ #timer {
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--dark);
+    font-size: 1.2rem;
+    font-weight: bold;
+    z-index: 2;
+  }
+
 @media (max-width: 999px) {
   #game-canvas {
     position: absolute;
@@ -358,7 +369,6 @@ canvas {
     background-size: 56px;
   }
 
-
   h2 {
     font-size: 4rem;
     margin-bottom: 1rem;
@@ -417,11 +427,9 @@ canvas {
     display: none;
     justify-content: flex-start;
     position: absolute;
-    background: url(public/pixelsplat.png) center -170px no-repeat;
+    background: url(public/pixelsplat.png) center -10rem no-repeat;
     background-size: contain;
     padding-top: 10rem;
-    width: 70vw;
-    height: 100vh;
   }
 
   .scores-text:after {
@@ -445,6 +453,15 @@ canvas {
     max-height: 16rem;
     overflow: auto;
     padding-right: 1rem;
+  }
+
+  #timer {
+    color: var(--dark);
+    position: absolute;
+    top: calc(552px + 5rem);
+    margin-left: 10px;
+    font-size: 1.2rem;
+    font-weight: bold;
   }
 }
 

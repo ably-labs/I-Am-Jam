@@ -13,6 +13,8 @@ type onGameEndCallback = (scoreboard: Scoreboard, reason: string) => void;
 const gameUi = document.getElementById("game") as HTMLDivElement;
 const debugCheckbox = document.getElementById("debug") as HTMLInputElement;
 const container = document.getElementById("container") as HTMLDivElement;
+const gameTimer = document.getElementById("timer") as HTMLDivElement;
+
 gameUi.style.display = "none";
 
 const configuration: GameConfiguration = {
@@ -42,6 +44,9 @@ export async function createGameUi(onGameStart: onGamestartCallback, onGameEnd: 
     });
 
     game.onGameTick((game: Game) => {
+        const timerAsMs = new Date(game.elapsed).toISOString().slice(14, -1);
+        gameTimer.innerHTML = timerAsMs;
+
         spectatorConnector.publish(game);
     });
 

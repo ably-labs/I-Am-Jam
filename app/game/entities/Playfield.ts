@@ -114,8 +114,16 @@ export class Playfield implements ITickable, IDrawable {
     public levelEndOffset() { return this.map.width - this.width; }
     public atLevelEnd() { return this.camera.position >= this.levelEndOffset(); }
 
-    public writeText(text: string) {
+    public writeText(text: string, x: number = 0, y: number = 0) {
         this.ctx.font = "30px Arial";
+
+        const textWidth = this.ctx.measureText(text).width;
+        const textX = (this.width / 2) - (textWidth / 2);
+        const textY = (this.height / 2) - 15;
+
+        this.ctx.fillStyle = "white";
+        this.ctx.fillText(text, textX, textY);
+
     }
 
     public draw(gameState: Game) {

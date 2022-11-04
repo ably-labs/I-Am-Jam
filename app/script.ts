@@ -4,7 +4,7 @@ import { Scoreboard } from "./game/highscores/Scoreboard";
 import { Game } from "./game/Game";
 
 let game: Game = null;
-const requireSignup = true;
+const requireSignup = false;
 
 (async () => {
     const startGameFunction = await createGameUi(onGameStart, onGameEnd);
@@ -77,7 +77,7 @@ function onGameEnd(scoreboard: Scoreboard, reason: string) {
     for (const score of scoreboard.scores) {
         const clone = template.content.cloneNode(true) as HTMLDivElement;
         clone.querySelector(".name").innerHTML = score.name;
-        clone.querySelector(".time").innerHTML = new Date(score.score).toISOString().slice(11, -1);
+        clone.querySelector(".time").innerHTML = new Date(score.score).toISOString().slice(14, -1);
         scoreboardContainer.appendChild(clone);
     }
 
