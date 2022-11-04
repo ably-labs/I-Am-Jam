@@ -1,10 +1,10 @@
-import {HubSpotUi} from "./HubSpotUi";
-import {createGameUi} from "./GameUi";
+import { HubSpotUi } from "./HubSpotUi";
+import { createGameUi } from "./GameUi";
 import { Scoreboard } from "./game/highscores/Scoreboard";
 import { Game } from "./game/Game";
 
 let game: Game = null;
-const requireSignup = false;
+const requireSignup = true;
 
 (async () => {
     const startGameFunction = await createGameUi(onGameStart, onGameEnd);
