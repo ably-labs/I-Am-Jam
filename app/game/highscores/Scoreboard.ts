@@ -17,15 +17,15 @@ export class Scoreboard {
 
       for (let score of items) {
 
-        // if (this.items.filter(x => x.name === score.name).length > 0) {
+        if (this.items.filter(x => x.name.trim() === score.name.trim()).length > 0) {
 
-        //   var currentHighScore = this.items.filter(x => x.name === score.name)[0];
-        //   this.items = this.items.filter(x => x.name !== score.name);
+          var currentHighScore = this.items.filter(x => x.name === score.name)[0];
+          this.items = this.items.filter(x => x.name !== score.name);
 
-        //   var bestScore = Math.max(currentHighScore.score, score.score);
-        //   score.score = bestScore;
-        // }
-          
+          var bestScore = Math.min(currentHighScore.score, score.score);
+          score.score = bestScore;
+        }
+    
         this.items.push(score);        
 
         this.items.sort((a, b) => a.score - b.score);

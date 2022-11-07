@@ -8,7 +8,7 @@ export class AblyHighScoreRepository implements IHighScoreRepository {
 
     constructor(ably: Ably.Realtime = null) {
         ably = ably || new Ably.Realtime({ authUrl: "/api/ably-token-request" });
-        this.channel = ably.channels.get("[?rewind=1]new-high-scores");
+        this.channel = ably.channels.get("[?rewind=1]new-high-scores2");
     }
 
     public async getScoreboard() {
