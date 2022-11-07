@@ -14,8 +14,22 @@ export class Scoreboard {
     }
   
     public addRange(items: { name: string; score: number; }[]) {
-      this.items.push(...items);
-      this.items.sort((a, b) => a.score - b.score);
-      this.items = this.items.slice(0, this.cap);
+
+      for (let score of items) {
+
+        if (this.items.filter(x => x.name === score.name).length > 0) {
+
+          var currentHighScore = this.items.filter(x => x.name === score.name)[0];
+          this.items = this.items.filter(x => x.name !== score.name);
+
+          var bestScore = Math.max(currentHighScore.score, score.score);
+          score.score = bestScore;
+        }
+          
+        this.items.push(score);        
+
+        this.items.sort((a, b) => a.score - b.score);
+        this.items = this.items.slice(0, this.cap);
+      }
     }
 }
