@@ -27,7 +27,7 @@ export class Controls {
     private gamepadPollingInterval: any;
     private eventListenerController: any;
 
-    private readonly _touchControlsCenterPoint = 150;
+    private readonly _touchControlsCenterPoint = 100;
 
     constructor() {
         this.eventListenerController = new AbortController();

@@ -19,10 +19,9 @@ export class Game {
 
     private timer: any;
     //private timerStart: number;
-    //private timerLast: number;
+    private timerLast: number;
 
     private startedAt: Date;
-    private endedAt: Date;
     private saves: SaveFile[];
     private ghosts: Ghost[];
 
@@ -90,18 +89,17 @@ export class Game {
         
         this.gameStartCallback();
 
-        await this.loop();
+        this.triggerGameLoop();
     }
 
     public stop(message: { reason: string }) {
-        this.endedAt = new Date();
         this.finished = true;
         
         console.log("Game ended:", message.reason);
         window.clearTimeout(this.timer);
 
         const save = this.player.saveFile;
-        save.playtime = this.endedAt.getTime() - this.startedAt.getTime();
+        save.playtime = Date.now() - this.startedAt.getTime();
         save.completed = message.reason !== "dead";
         save.playerName = this.playerName;
 
@@ -128,6 +126,8 @@ export class Game {
         if (this.finished) {
             return;
         }
+        
+        const elapsed = this.elapsed;
 
         if (!this.player.isAlive) {
             this.schedule.scheduleTaskOnce(1000, (state: Game) => state.stop({ reason: "dead" }));
@@ -159,31 +159,12 @@ export class Game {
         }
 
         this.gameTickCallback(this);
-        
-        this.scheduleNextDrawCall();
     }
 
-    private scheduleNextDrawCall() {
-        this.timer = window.setTimeout(async () => {
+    private triggerGameLoop() {
+        this.timer = window.setInterval(async () => {
             await this.loop();
-        }, 1000 / 60);
-
-        /*this.timer = window.requestAnimationFrame(async (timestamp) => {
-            if (this.timerStart === undefined) {
-                this.timerStart = timestamp;
-            }
-
-            const framePace = 16; // ms
-            const elapsed = Math.floor(timestamp - this.timerLast);
-
-            if (elapsed >= framePace) {
-                await this.loop()
-            } else {
-                window.requestAnimationFrame(this.scheduleNextDrawCall.bind(this));
-            }
-
-            this.timerLast = timestamp;
-        });*/
+        }, 1000 / 45);
     }
 
 }

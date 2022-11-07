@@ -31,6 +31,7 @@ export class Playfield implements ITickable, IDrawable {
         this.parent = gameState;
         this.width = width;
         this.height = height;
+        this.zIndex = -100;
         
         this.canvas = document.createElement("CANVAS") as HTMLCanvasElement;
         this.canvas.setAttribute("id", "game-canvas");
@@ -113,8 +114,15 @@ export class Playfield implements ITickable, IDrawable {
     public levelEndOffset() { return this.map.width - this.width; }
     public atLevelEnd() { return this.camera.position >= this.levelEndOffset(); }
 
-    public writeText(text: string) {
+    public writeText(text: string, x: number = 0, y: number = 0) {
         this.ctx.font = "30px Arial";
+
+        const textWidth = this.ctx.measureText(text).width;
+        const textX = (this.width / 2) - (textWidth / 2);
+        const textY = (this.height / 2) - 15;
+
+        this.ctx.fillStyle = "white";
+        this.ctx.fillText(text, textX, textY);
 
     }
 
@@ -126,5 +134,12 @@ export class Playfield implements ITickable, IDrawable {
         const visual = this.parent.configuration.debug ? this.collisionMapImage : this.map;
 
         this.ctx.drawImage(visual, drawAtX, 0);
+    }
+
+    public resize(width: number, height: number) {
+        this.width = width;
+        this.height = height;
+        this.canvas.setAttribute("width", width + "px");
+        this.canvas.setAttribute("height", height + "px");
     }
 }

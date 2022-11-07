@@ -38,7 +38,7 @@ h1 {
   font-size: 20px;
   letter-spacing: 2px;
   background-size: 1.2em;
-  color: var(--dark);
+  color: var(--strawberry);
 }
 
 ul {
@@ -197,7 +197,7 @@ h2:after {
   content: "Game over";
 }
 
-.complete h2:after{
+.completed h2:after{
   content: "You are Jam!"
 }
 
@@ -223,12 +223,12 @@ canvas {
   width: 100vw;
   height: 100vh;
   background: url(public/pixelsplat.png) center 70% no-repeat;
-  background-size: 100vw;
+  background-size: 150vw;
   transform: translatex(-50%);
   z-index: 5;
 }
 
-.complete #scores {
+.completed #scores {
   background: url(public/jamsuccess.png) top no-repeat;
   background-size: 97vh;
 }
@@ -249,10 +249,58 @@ canvas {
 
 .entry {
   color: var(--grape);
+  min-width: 260px;
+}
+
+.time {
+  float: right;
 }
 
 .entry:nth-child(odd) {
   color: var(--dark)
+}
+
+#signup-form {
+  width: calc(100% - 2rem);
+  max-width: 700px;
+  margin: 0 auto;
+  overflow-y: auto;
+  height: calc(100vh - 5rem);
+  margin-top: 3rem;
+}
+
+#guys {
+  margin-top: 1rem;
+}
+
+.guy {
+  position: relative;
+  border-radius: 50%;
+  border: 1px solid var(--dark);
+  min-height: 5px;
+  min-width: 5px;
+}
+
+.player {
+  position: absolute;
+  bottom: 0.4vw;
+  left: 0%;
+  transform: translateX(-50%);
+  color: var(--dark);
+  font-weight: bold;
+  display: block;
+  width: max-content;
+  text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+}
+
+#timer {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  font-size: 1rem;
+  color: var(--dark);
+  text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+
 }
 
 @media (max-width: 999px) {
@@ -286,7 +334,7 @@ canvas {
 
 #orientation-warning.bad-orientation {
   display: block;    
-  z-index: 5;
+  z-index: 10;
   position: absolute;
   top: 0;
   left: 0;
@@ -319,7 +367,6 @@ canvas {
     background: url(android-chrome-512x512.png) no-repeat -7px 20px;
     background-size: 56px;
   }
-
 
   h2 {
     font-size: 4rem;
@@ -376,28 +423,21 @@ canvas {
   }
 
   #scores {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
     display: none;
+    justify-content: flex-start;
     position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translatex(-50%);
-    z-index: 5;
-    background: url(public/pixelsplat.png) center center no-repeat;
+    background: url(public/pixelsplat.png) center -10rem no-repeat;
     background-size: contain;
-    padding: 1vw;
-    width:60vw;
-    height: 90vh;
+    padding-top: 10rem;
   }
 
   .scores-text:after {
     content: "Press any key to play again!"
   }
 
-  .complete #scores {
-    background-size: 72vh;
+  .completed #scores {
+    background-size: 500px;
+    background-position: center 9rem;
   }
 
   .gameover #scores {
@@ -413,6 +453,15 @@ canvas {
     overflow: auto;
     padding-right: 1rem;
   }
+
+  #timer {
+    color: var(--dark);
+    position: absolute;
+    top: calc(552px + 5rem);
+    margin-left: 10px;
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
 }
 
 .gameover #game {
@@ -425,6 +474,9 @@ canvas {
     max-width: 100%;
   }
 
+  .gamestart h1 {
+    color: var(--dark);
+  }
   .container {
     min-height: 100%;
   }
@@ -442,4 +494,36 @@ canvas {
     margin-top: -3rem;
   }
 
+}
+
+.overview #scores {
+  display: flex;
+}
+
+#scoreboard {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+#scoreboard #scores-list {
+  height: calc(100vh - 13rem - 7vw);
+  max-height: calc(100vh - 13rem - 7vw);
+  overflow: auto;
+}
+
+#scoreboard .entry {
+  color: white;
+  font-size: 1.2rem;
+}
+
+#scoreboard .entry:nth-child(odd) {
+  color: var(--marmalade);
+}
+
+#scoreboard .time {
+  float: right;
+  margin-left: 2rem;
 }

@@ -17,7 +17,8 @@ export class Ghost extends Character {
         }
 
         super(gX, gY, 25, 25, new Sprite("graphics/slime", 4));
-        
+        this.zIndex = -1;
+
         this.clearBehaviours();
         this.recording = [...saveFile.recording];
     }

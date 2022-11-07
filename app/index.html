@@ -5,7 +5,6 @@
   <title>I am JAM</title>
   <script charset="utf-8" type="text/javascript" src="//js.hsforms.net/forms/v2.js"></script>
   <script src="./script.ts" type="module"></script>
-  <script src="./orientation.ts" type="module"></script>
   <script src="./analytics.ts" type="module"></script>
 
 
@@ -30,13 +29,16 @@
 <body class="gameunknown">
   <header>
     <h1>I am JAM</h1>
+    <div id="timer"></div>
     <ul>
       <li><a class="ably" href="https://ably.com">Ably</a></li>
     </ul>
   </header>
 
   <div id="signup-form"></div>
-
+  <div id="orientation-warning">
+    <p>Please rotate your device to landscape to play.</p>
+  </div>
   <div id="game">
     <div class="loading"></div>
     <div id="container" class="container"></div>
@@ -53,24 +55,20 @@
       <img class="controls" src="wsad.png" alt="an illustration of the WSAD keys, space bar and shift keys">
     </div>
   </div>
-
+  
   <div id="scores">
     <h2></h2>
     <h3>High Scores</h3>
     <div id="scores-list"></div>
     <p class="scores-text"></p>
   </div>
-
+ 
   <template id="score-item">
     <div class="entry">
       <span class="name">Name</span>
       <span class="time">Time</span>
     </div>
   </template>
-
-  <div id="orientation-warning">
-    <p>Please rotate your device to landscape to play.</p>
-  </div>
 
 </body>
 
