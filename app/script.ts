@@ -29,6 +29,10 @@ const requireSignup = true;
 })();
 
 function waitForHorizontalOrientation(): Promise<boolean> {
+    if (screen == null || screen.orientation == null) { 
+        return Promise.resolve(true);
+    }
+
     validateOrientation();
 
     screen.orientation.addEventListener("change", function(event) {
