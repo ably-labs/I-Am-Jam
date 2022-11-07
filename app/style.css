@@ -38,7 +38,7 @@ h1 {
   font-size: 20px;
   letter-spacing: 2px;
   background-size: 1.2em;
-  color: white;
+  color: var(--strawberry);
 }
 
 ul {
@@ -52,7 +52,7 @@ ul {
   width: 80px;
   height: 40px;
   color: transparent;
-  background: url(./public/AblyLogoColour.png) no-repeat center;
+  background: url(./public/ably.png) no-repeat center;
   background-size: 80px;
   margin: 5px 1rem;
 }
@@ -276,7 +276,7 @@ canvas {
 .guy {
   position: relative;
   border-radius: 50%;
-  border: 1px solid black;
+  border: 1px solid var(--dark);
   min-height: 5px;
   min-width: 5px;
 }
@@ -293,16 +293,15 @@ canvas {
   text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
 }
 
- #timer {
-    position: fixed;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: var(--dark);
-    font-size: 1.2rem;
-    font-weight: bold;
-    z-index: 2;
-  }
+#timer {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  font-size: 1rem;
+  color: var(--dark);
+  text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+
+}
 
 @media (max-width: 999px) {
   #game-canvas {
@@ -500,6 +499,11 @@ canvas {
 .overview #scores {
   display: flex;
 }
+
+.overview {
+  background: #03020d!important;
+}
+
 
 #scoreboard {
   color: white;
