@@ -19,6 +19,7 @@ const requireSignup = true;
             if (firstName.length + lastName.length < 50) {
                 await waitForHorizontalOrientation();   
                 game = startGameFunction(`${firstName} ${lastName}`);
+                console.log("got here");
             }
         });
     } else {
