@@ -16,10 +16,10 @@ const requireSignup = true;
             // (╯°□°）╯︵ ┻━┻
             const firstName = form.data.data[1].value;
             const lastName = form.data.data[2].value;
-
-            await waitForHorizontalOrientation();
-
-            game = startGameFunction(`${firstName} ${lastName}`);
+            if (firstName.length + lastName.length < 50) {
+                await waitForHorizontalOrientation();   
+                game = startGameFunction(`${firstName} ${lastName}`);
+            }
         });
     } else {
         HubSpotUi.hideForm();
